@@ -1,0 +1,1 @@
+<script src='/js/bootstrap-confirmation/confirmation.js'></script>

@@ -1,0 +1,9 @@
+/sandlerserbialaravel_app/vendor
+/sandlerserbialaravel_app/node_modules
+/sandlerserbialaravel/storage
+sandlerserbialaravel_app/Homestead.yaml
+sandlerserbialaravel_app/Homestead.json
+sandlerserbialaravel_app/.env
+sandlerserbialaravel_app/database/migrations
+sandlerserbialaravel_app/package-lock.json
+sandlerserbialaravel_app/package.json

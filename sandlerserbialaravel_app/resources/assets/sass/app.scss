@@ -1,0 +1,432 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+/* for floating footer */
+html {
+	
+  	height: 100%  !important;
+  	box-sizing: border-box  !important;
+}
+/* for floating footer */
+*,
+*:before,
+*:after {
+  box-sizing: inherit  !important;
+}
+ 
+body{
+	background: $brand-primary !important;
+    font-family: 'Lato';
+  
+    /* for floating footer */
+    position: relative !important;
+ 	min-height: 90%  !important;
+ 	padding-bottom: 3rem !important;
+}
+
+
+ /* floating footer */
+footer{
+	border-top: 1px solid $gray-lighte !important;
+	padding:5px 0;
+	width:100%;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+/* No JS Image */
+img#no_js_img {
+    margin:0 auto !important;
+    max-width:100% !important;
+}
+
+/* button-backToTop */
+#backToTopLg{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: none;
+    opacity:0.6;
+}
+
+
+/* background colors */
+ .san-blue{
+ 	background-color: $brand-primary !important;
+ }
+ .san-yell{
+ 	background-color: $brand-warning !important;
+ }
+ .san-success{
+ 	background-color: $brand-success !important;
+ }
+ .san-msg{
+ 	background-color: $brand-info !important;
+ }
+ .san-danger{
+ 	background-color: $brand-danger !important;
+ }
+ .san-grey{
+ 	background-color: $gray-lighte !important;
+ }
+ .san-light{
+ 	background-color: #d1d3d6 !important;
+ }
+ 
+
+/* main container */
+.main-container {
+  padding: 5px !important; 
+  margin-top: 70px;
+  /* mih-height important for footer */
+  min-height: 670px;
+ }
+/* side container */
+.side-container{
+	padding:5px !important;
+}
+/* filter container */
+.filter-container{
+	margin:0 !important;
+	padding:0 5px 15px !important;
+}
+
+/* font awesome button */
+.fa-btn {
+    margin-right: 6px;
+ }
+
+/* logo image */
+.navbar-brand{
+	padding:10px;
+} 
+
+/* havbar header */
+.main-head-nav{
+	min-width: 160px !important;
+}
+.nav > li > ul > li a:hover{
+    background-color: $gray-lighte !important;
+}
+.main-head-nav>ul.dropdown-menu{
+	padding:0 !important;
+}
+
+
+
+/* glyphicon - eu flag*/
+.eu-flag.glyphicon-globe::before{
+	content:none!important;
+}
+.eu-flag.glyphicon-globe{
+	background-image:url(/storage/images/kursna_lista/eu_flag.png);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+/* glyphicon - eu large flag*/
+.eu-lg-flag.glyphicon-globe::before {
+  content: none !important; 
+ }
+.eu-lg-flag.glyphicon-globe {
+  background-image: url(/storage/images/kursna_lista/eu_flag.png);
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: cover; 
+ }
+
+/* glyphicon - usa flag*/
+.usa-flag.glyphicon-globe::before{
+	content:none!important;
+}
+.usa-flag.glyphicon-globe{
+	background-image:url(/storage/images/kursna_lista/usa_flag.png);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+/* glyphicon - usa large flag*/
+.usa-lg-flag.glyphicon-globe::before {
+  content: none !important; 
+ }
+.usa-lg-flag.glyphicon-globe {
+  background-image: url(/storage/images/kursna_lista/usa_flag.png);
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: cover;
+ }
+
+
+/* glyphicon - exchange logo */
+.exchange-logo.glyphicon-globe::before{
+	content:none!important;
+}
+.exchange-logo.glyphicon-globe{
+	background-image:url(/storage/images/kursna_lista/exchange.png);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+/* glyphicon - exchange logo large */
+.exchange-logo-lg.glyphicon-globe::before {
+  content: none !important; 
+}
+.exchange-logo-lg.glyphicon-globe {
+  background-image: url(/storage/images/kursna_lista/exchange.png);
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: cover; 
+}
+
+
+/* glyphicon - taxes logo */
+.taxes-logo.glyphicon-globe::before{
+	content:none!important;
+}
+.taxes-logo.glyphicon-globe{
+	background-image:url(/storage/images/percent/taxes.jpg);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+/* glyphicon - taxes logo large */
+.taxes-logo-lg.glyphicon-globe::before {
+  content: none !important; 
+}
+.taxes-logo-lg.glyphicon-globe {
+  background-image: url(/storage/images/percent/taxes.jpg);
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: cover; 
+ }
+
+
+
+/* glyphicon - global training icon*/
+.global-training-icon.glyphicon-globe::before{
+	content:none !important;
+}
+.global-training-icon.glyphicon-globe{
+	background-image:url(/storage/images/sandler/certified3_icon.png);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+.global-training-logo.glyphicon-globe::before {
+  content: none !important; 
+}
+.global-training-logo.glyphicon-globe {
+  background-image: url(/storage/images/sandler/eagle.png);
+  height: 30px;
+  width: 30px;
+  background-repeat: no-repeat;
+  background-size: cover; 
+ }
+.global-training-logo-sm.glyphicon-globe::before {
+  content: none !important; 
+ }
+.global-training-logo-sm.glyphicon-globe {
+  background-image: url(/storage/images/sandler/eagle.png);
+  height: 15px;
+  width: 15px;
+  background-repeat: no-repeat;
+  background-size: cover; 
+ }
+  
+
+/* glyphicon - hraniti ego*/
+.hraniti-ego.glyphicon-globe::before{
+	content:none!important;
+}
+.hraniti-ego.glyphicon-globe{
+	background-image:url(/storage/images/sandler/hraniti_ego_ili_porodicu.png);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+
+
+/* glyphicon - sandler systems icon sm */
+.sandler-systems-icon.glyphicon-globe::before{
+	content:none!important;
+}
+.sandler-systems-icon.glyphicon-globe{
+	background-image:url(/storage/images/sandler/sandler_icon.png);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+/* glyphicon - sandler systems icon lg */
+.sandler-systems-icon-lg.glyphicon-globe::before{
+	content:none!important;
+}
+.sandler-systems-icon-lg.glyphicon-globe{
+	background-image:url(/storage/images/sandler/sandler_icon.png); 
+	height:20px;
+	width:25px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+
+
+/* glyphicon - disc_devine icon sm */
+.disc-devine-icon.glyphicon-globe::before{
+	content:none!important;
+}
+.disc-devine-icon.glyphicon-globe{
+	background-image:url(/storage/images/disc/disc.png);
+	height:15px;
+	width:15px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+/* glyphicon - disc_devine icon lg */
+.disc-devine-icon-lg.glyphicon-globe::before{
+	content:none!important;
+}
+.disc-devine-icon-lg.glyphicon-globe{
+	background-image:url(/storage/images/disc/disc.png);
+	height:20px;
+	width:20px;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* input file */
+#excel_file{
+	display: none;
+}
+
+
+/* confirmation alert, prompt, confirm */
+.alert-san-blue {
+	background: rgba(111,129,151,1);
+	background: -moz-linear-gradient(top, rgba(111,129,151,1) 0%, rgba(111,129,151,1) 13%, rgba(72,89,105,1) 58%, rgba(55,73,92,1) 81%, rgba(32,55,81,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(111,129,151,1)), color-stop(13%, rgba(111,129,151,1)), color-stop(58%, rgba(72,89,105,1)), color-stop(81%, rgba(55,73,92,1)), color-stop(100%, rgba(32,55,81,1)));
+	background: -webkit-linear-gradient(top, rgba(111,129,151,1) 0%, rgba(111,129,151,1) 13%, rgba(72,89,105,1) 58%, rgba(55,73,92,1) 81%, rgba(32,55,81,1) 100%);
+	background: -o-linear-gradient(top, rgba(111,129,151,1) 0%, rgba(111,129,151,1) 13%, rgba(72,89,105,1) 58%, rgba(55,73,92,1) 81%, rgba(32,55,81,1) 100%);
+	background: -ms-linear-gradient(top, rgba(111,129,151,1) 0%, rgba(111,129,151,1) 13%, rgba(72,89,105,1) 58%, rgba(55,73,92,1) 81%, rgba(32,55,81,1) 100%);
+	background: linear-gradient(to bottom, rgba(111,129,151,1) 0%, rgba(111,129,151,1) 13%, rgba(72,89,105,1) 58%, rgba(55,73,92,1) 81%, rgba(32,55,81,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6f8197', endColorstr='#203751', GradientType=0 );
+}
+.alert-san-yell {
+	background: rgba(252,218,81,1);
+	background: -moz-linear-gradient(top, rgba(252,218,81,1) 0%, rgba(252,200,70,1) 42%, rgba(233,170,0,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(252,218,81,1)), color-stop(42%, rgba(252,200,70,1)), color-stop(100%, rgba(233,170,0,1)));
+	background: -webkit-linear-gradient(top, rgba(252,218,81,1) 0%, rgba(252,200,70,1) 42%, rgba(233,170,0,1) 100%);
+	background: -o-linear-gradient(top, rgba(252,218,81,1) 0%, rgba(252,200,70,1) 42%, rgba(233,170,0,1) 100%);
+	background: -ms-linear-gradient(top, rgba(252,218,81,1) 0%, rgba(252,200,70,1) 42%, rgba(233,170,0,1) 100%);
+	background: linear-gradient(to bottom, rgba(252,218,81,1) 0%, rgba(252,200,70,1) 42%, rgba(233,170,0,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcda51', endColorstr='#e9aa00', GradientType=0 );
+}
+.alert-msg {
+	background: rgba(137,189,245,1);
+	background: -moz-linear-gradient(top, rgba(137,189,245,1) 0%, rgba(104,167,240,1) 34%, rgba(66,149,244,1) 60%, rgba(12,137,255,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(137,189,245,1)), color-stop(34%, rgba(104,167,240,1)), color-stop(60%, rgba(66,149,244,1)), color-stop(100%, rgba(12,137,255,1)));
+	background: -webkit-linear-gradient(top, rgba(137,189,245,1) 0%, rgba(104,167,240,1) 34%, rgba(66,149,244,1) 60%, rgba(12,137,255,1) 100%);
+	background: -o-linear-gradient(top, rgba(137,189,245,1) 0%, rgba(104,167,240,1) 34%, rgba(66,149,244,1) 60%, rgba(12,137,255,1) 100%);
+	background: -ms-linear-gradient(top, rgba(137,189,245,1) 0%, rgba(104,167,240,1) 34%, rgba(66,149,244,1) 60%, rgba(12,137,255,1) 100%);
+	background: linear-gradient(to bottom, rgba(137,189,245,1) 0%, rgba(104,167,240,1) 34%, rgba(66,149,244,1) 60%, rgba(12,137,255,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#89bdf5', endColorstr='#0c89ff', GradientType=0 );
+}
+
+/* navbar color , datepicker calendar header */
+.alert-san-grey, .ui-datepicker-header {
+	background: rgba(227,229,232,1);
+	background: -moz-linear-gradient(top, rgba(227,229,232,1) 0%, rgba(198,203,210,1) 70%, rgba(198,203,210,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(227,229,232,1)), color-stop(70%, rgba(198,203,210,1)), color-stop(100%, rgba(198,203,210,1)));
+	background: -webkit-linear-gradient(top, rgba(227,229,232,1) 0%, rgba(198,203,210,1) 70%, rgba(198,203,210,1) 100%);
+	background: -o-linear-gradient(top, rgba(227,229,232,1) 0%, rgba(198,203,210,1) 70%, rgba(198,203,210,1) 100%);
+	background: -ms-linear-gradient(top, rgba(227,229,232,1) 0%, rgba(198,203,210,1) 70%, rgba(198,203,210,1) 100%);
+	background: linear-gradient(to bottom, rgba(227,229,232,1) 0%, rgba(198,203,210,1) 70%, rgba(198,203,210,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e5e8', endColorstr='#c6cbd2', GradientType=0 );
+}
+
+/* invalid input border*/
+.alert-border{
+  border:1px solid #c9302c !important;
+  -webkit-box-shadow: 0px 0px 3px #c9302c !important;
+     -moz-box-shadow: 0px 0px 3px #c9302c !important;
+          box-shadow: 0px 0px 3px #c9302c !important;
+}
+
+/* text in more lines */
+.btn{
+    white-space:normal !important;
+    word-wrap: break-word !important; 
+}
+
+/* text left on button (search result button link) */
+.btn-text-left{
+	text-align:left !important;
+}
+
+/* text white */
+.text-white{
+	color: #eee !important;
+}
+/* background white */
+.bg-white {
+	background: #eee !important;
+}
+
+/* pagination changed in node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss */
+ 
+/* pagination  */
+.pagination{
+	margin:20px 0 0 !important;
+}    
+
+/* seclect font awesome icons (unicode) */
+select {
+  font-family: 'FontAwesome' , 'Second Font name', sans-serif 
+}
+
+/* jquery datepicker classes*/
+.ui-datepicker, .ui-datepicker-header, .ui-datepicker-title, .ui-datepicker-year, .ui-datepicker-month, .ui-datepicker-calendar{
+	 font-family: 'Lato' !important;
+}
+.ui-state-active{
+	background-color:  $brand-info !important;
+	color: #fff !important;
+}
+.ui-state-highlight{
+	background-color:  $brand-warning !important;
+	color: #222 !important;
+}
+
+/* button prevent multiple submit spinner */
+.spinner{
+  display: none;
+}
+
+/* template addon */
+.template-addon {
+	min-width:120px;
+}
+
+/* mozzila input type number*/
+input[type=number] {
+   -moz-appearance: textfield;
+}
