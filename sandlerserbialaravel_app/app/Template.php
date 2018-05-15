@@ -12,13 +12,13 @@ class Template extends Model
      * @var array
      */
     protected $fillable = [
-        'logo_bg', 'logo_hd', 'line_hd', 'line_ft','paginate', 'margin_top', 'margin_right', 'margin_bottom', 'margin_left'
+        'logo_bg', 'logo_hd', 'line_hd', 'line_ft', 'paginate', 'margin_top', 'margin_right', 'margin_bottom', 'margin_left',
 
     ];
 
     /**
      * The attribute timestamps
-     * 
+     *
      * @var bool
      */
     public $timestamps = false;
@@ -28,8 +28,8 @@ class Template extends Model
      *
      * @return  \App\Template
      */
-    public function get_template_options(){
-        return  Template::first();
-
+    public function get_template_options()
+    {
+        return Template::first();
     }
 }

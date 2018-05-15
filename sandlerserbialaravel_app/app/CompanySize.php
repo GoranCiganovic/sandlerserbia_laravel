@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanySize extends Model
 {
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $guarded = [
-        'size'
+        'size',
     ];
-    
+
     /**
      * The attribute timestamps
-     * 
+     *
      * @var bool
      */
     public $timestamps = false;
@@ -27,7 +27,7 @@ class CompanySize extends Model
      */
     public function legal()
     {
-        return $this->hasOne('App\Legal',  'company_size_id');
+        return $this->hasOne('App\Legal', 'company_size_id');
     }
 
     /**
@@ -35,7 +35,8 @@ class CompanySize extends Model
      *
      * @return \App\CompanySize
      */
-    public function get_company_sizes(){   
+    public function get_company_sizes()
+    {
         return CompanySize::get();
     }
 
@@ -45,7 +46,8 @@ class CompanySize extends Model
      * @param $company_size_id
      * @return \App\CompanySize
      */
-    public function get_company_size_by_id($company_size_id){   
+    public function get_company_size_by_id($company_size_id)
+    {
         return CompanySize::find($company_size_id);
     }
 }

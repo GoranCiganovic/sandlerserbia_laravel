@@ -16,11 +16,11 @@ class MustBeAdministrator
     public function handle($request, Closure $next)
     {
         $admin = $request->user()->is_admin;
-        if($admin){
+        if ($admin) {
             return $next($request);
         }
         $request->session()->flash('message', "<span class='text-danger'>Nemate ovlašćenje za ovu akciju!</span>");
         return back();
-        //abort(403, "Nemate ovlašćenja za ovu akciju!"); 
+        //abort(403, "Nemate ovlašćenja za ovu akciju!");
     }
 }

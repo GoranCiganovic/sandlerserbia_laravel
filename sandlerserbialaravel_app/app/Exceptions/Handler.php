@@ -3,11 +3,11 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use \Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler
@@ -46,23 +46,17 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
-    {   
+    {
         /* Custom Added for No Model Found Message */
-        if ($e instanceof ModelNotFoundException)
-        {
-             abort(400);
+        if ($e instanceof ModelNotFoundException) {
+            abort(400);
         }
 
         /* Custom Added If The Token Is Expired */
-        if ($e instanceof TokenMismatchException) 
-        {            
+        if ($e instanceof TokenMismatchException) {
             return redirect('/');
         }
 
         return parent::render($request, $e);
     }
 }
-
-
-
-

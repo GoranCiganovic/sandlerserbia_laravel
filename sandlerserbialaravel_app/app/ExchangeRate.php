@@ -2,19 +2,18 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class ExchangeRate extends Model
 {
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'currency', 'value'
+        'currency', 'value',
     ];
 
     /**
@@ -22,8 +21,9 @@ class ExchangeRate extends Model
      *
      * @return \App\ExchangeRate
      */
-    public function get_all_exchange_rate(){
-        return  ExchangeRate::all();
+    public function get_all_exchange_rate()
+    {
+        return ExchangeRate::all();
     }
 
     /**
@@ -31,8 +31,9 @@ class ExchangeRate extends Model
      *
      * @return string
      */
-    public function get_current_exchange_euro(){   
-        return ExchangeRate::where('currency','EUR')->value('value');
+    public function get_current_exchange_euro()
+    {
+        return ExchangeRate::where('currency', 'EUR')->value('value');
     }
 
     /**
@@ -40,19 +41,18 @@ class ExchangeRate extends Model
      *
      * @return string
      */
-    public function get_current_exchange_dollar(){   
-        return ExchangeRate::where('currency','USD')->value('value');
+    public function get_current_exchange_dollar()
+    {
+        return ExchangeRate::where('currency', 'USD')->value('value');
     }
 
     /**
-     * Update Currency 
+     * Update Currency
      *
      * @return bool
      */
-    public function update_currency($currency, $value){   
-         return ExchangeRate::where('currency', $currency)->update(['value' => $value, 'updated_at' => Carbon::now()]);
+    public function update_currency($currency, $value)
+    {
+        return ExchangeRate::where('currency', $currency)->update(['value' => $value, 'updated_at' => Carbon::now()]);
     }
-
- 
 }
-

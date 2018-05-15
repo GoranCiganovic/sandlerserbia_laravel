@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'is_admin', 'is_unauthorized'
+        'name', 'email', 'password', 'phone', 'is_admin', 'is_unauthorized',
     ];
 
     /**
@@ -29,18 +29,18 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function get_admin_email(){
-         return User::where('id', 1)->where('is_admin', 1)->value('email');
+    public function get_admin_email()
+    {
+        return User::where('id', 1)->where('is_admin', 1)->value('email');
     }
 
     /**
-     * Returns Non-Administrator Users 
+     * Returns Non-Administrator Users
      *
      * @return \App\Users
      */
-    public function get_non_admin_users(){
-         return  User::where('is_admin',0)->get();
+    public function get_non_admin_users()
+    {
+        return User::where('is_admin', 0)->get();
     }
-   
- 
 }

@@ -12,12 +12,12 @@ class ContractStatus extends Model
      * @var array
      */
     protected $guarded = [
-         'name', 'icon','color'
+        'name', 'icon', 'color',
     ];
 
     /**
      * The attribute timestamps
-     * 
+     *
      * @var bool
      */
     public $timestamps = false;
@@ -27,7 +27,6 @@ class ContractStatus extends Model
      */
     public function contract()
     {
-        return $this->hasOne('App\Contract',  'contract_status_id');
+        return $this->hasOne('App\Contract', 'contract_status_id');
     }
-
 }

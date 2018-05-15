@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Template;
 use Illuminate\Http\Request;
-use Exception;
 
 class TemplatesController extends Controller
 {
@@ -18,7 +17,6 @@ class TemplatesController extends Controller
         $this->template = $template;
     }
 
-
     /**
      * Show the form for editing Template Options
      *
@@ -29,7 +27,6 @@ class TemplatesController extends Controller
     {
         return view('templates.edit_template', compact('template'));
     }
-
 
     /**
      * Update emplate Options
@@ -49,7 +46,7 @@ class TemplatesController extends Controller
             'margin_top' => "required|numeric|between:0,50",
             'margin_right' => "required|numeric|between:0,30",
             'margin_bottom' => "required|numeric|between:0,30",
-            'margin_left' => "required|numeric|between:0,30"
+            'margin_left' => "required|numeric|between:0,30",
         ]);
 
         $logo_bg = is_null($request->get('logo_bg')) ? 0 : 1;
@@ -59,21 +56,18 @@ class TemplatesController extends Controller
         $paginate = is_null($request->get('paginate')) ? 0 : 1;
 
         $template->update([
-            'logo_bg' =>  $logo_bg,
-            'logo_hd' =>  $logo_hd,
-            'line_hd' =>  $line_hd,
-            'line_ft' =>  $line_ft,
+            'logo_bg' => $logo_bg,
+            'logo_hd' => $logo_hd,
+            'line_hd' => $line_hd,
+            'line_ft' => $line_ft,
             'paginate' => $paginate,
             'margin_top' => $request->input('margin_top'),
             'margin_right' => $request->input('margin_right'),
             'margin_bottom' => $request->input('margin_bottom'),
-            'margin_left' => $request->input('margin_left')
+            'margin_left' => $request->input('margin_left'),
         ]);
 
         $request->session()->flash('message', 'Opcije su uspešno izmenjene.');
-
         return back();
-       
     }
-
 }

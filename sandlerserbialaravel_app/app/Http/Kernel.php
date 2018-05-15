@@ -52,5 +52,4 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\MustBeAdministrator::class,
         'allow' => \App\Http\Middleware\MustBeAllowed::class,
     ];
-
 }

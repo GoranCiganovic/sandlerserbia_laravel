@@ -12,35 +12,34 @@ class Rate extends Model
      * @var array
      */
     protected $fillable = [
-        'sandler', 'sandler_paying_day', 'pdv', 'pdv_paying_day','disc', 'devine', 'disc_devine', 'dd_paying_day', 'ppo'
+        'sandler', 'sandler_paying_day', 'pdv', 'pdv_paying_day', 'disc', 'devine', 'disc_devine', 'dd_paying_day', 'ppo',
     ];
 
     /**
      * The attribute timestamps
-     * 
+     *
      * @var bool
      */
     public $timestamps = false;
-
-
 
     /**
      * Returns Rate (Sandler Percent, Sandler Paying Day, PDV Percent, PDV Paying Day, DISC, Devine, DISC/Devine, DISC/Devine Paying Day, PPO Percent)
      *
      * @return \App\Rate
      */
-    public function get_rate(){
-        return  Rate::where('id', 1)->first();
+    public function get_rate()
+    {
+        return Rate::where('id', 1)->first();
     }
-
 
     /**
      * Returns Sandler Percent
      *
      * @return float
      */
-    public function get_sandler_percent(){
-        return  Rate::where('id', 1)->first()->sandler;
+    public function get_sandler_percent()
+    {
+        return Rate::where('id', 1)->first()->sandler;
     }
 
     /**
@@ -48,8 +47,9 @@ class Rate extends Model
      *
      * @return int
      */
-    public function get_sandler_paying_day(){
-        return  Rate::where('id', 1)->first()->sandler_paying_day;
+    public function get_sandler_paying_day()
+    {
+        return Rate::where('id', 1)->first()->sandler_paying_day;
     }
 
     /**
@@ -57,8 +57,9 @@ class Rate extends Model
      *
      * @return float
      */
-    public function get_pdv_percent(){
-        return  Rate::where('id', 1)->first()->pdv;
+    public function get_pdv_percent()
+    {
+        return Rate::where('id', 1)->first()->pdv;
     }
 
     /**
@@ -67,8 +68,9 @@ class Rate extends Model
      * @param  int $legal_status
      * @return  float
      */
-    public function get_pdv_percent_by_legal_status($legal_status){
-       return $legal_status == 1 ? $this->get_pdv_percent() : '0.00';   
+    public function get_pdv_percent_by_legal_status($legal_status)
+    {
+        return $legal_status == 1 ? $this->get_pdv_percent() : '0.00';
     }
 
     /**
@@ -76,8 +78,9 @@ class Rate extends Model
      *
      * @return int
      */
-    public function get_pdv_paying_day(){
-        return  Rate::where('id', 1)->first()->pdv_paying_day;
+    public function get_pdv_paying_day()
+    {
+        return Rate::where('id', 1)->first()->pdv_paying_day;
     }
 
     /**
@@ -85,8 +88,9 @@ class Rate extends Model
      *
      * @return float
      */
-    public function get_ppo_percent(){
-        return  Rate::where('id', 1)->first()->ppo;
+    public function get_ppo_percent()
+    {
+        return Rate::where('id', 1)->first()->ppo;
     }
 
     /**
@@ -94,8 +98,9 @@ class Rate extends Model
      *
      * @return float
      */
-    public function get_disc(){
-        return  Rate::where('id', 1)->first()->disc;
+    public function get_disc()
+    {
+        return Rate::where('id', 1)->first()->disc;
     }
 
     /**
@@ -103,8 +108,9 @@ class Rate extends Model
      *
      * @return float
      */
-    public function get_devine(){
-        return  Rate::where('id', 1)->first()->devine;
+    public function get_devine()
+    {
+        return Rate::where('id', 1)->first()->devine;
     }
 
     /**
@@ -112,8 +118,9 @@ class Rate extends Model
      *
      * @return float
      */
-    public function get_disc_devine(){
-        return  Rate::where('id', 1)->first()->disc_devine;
+    public function get_disc_devine()
+    {
+        return Rate::where('id', 1)->first()->disc_devine;
     }
 
     /**
@@ -121,7 +128,8 @@ class Rate extends Model
      *
      * @return int
      */
-    public function get_dd_paying_day(){
-        return  Rate::where('id', 1)->first()->dd_paying_day;
+    public function get_dd_paying_day()
+    {
+        return Rate::where('id', 1)->first()->dd_paying_day;
     }
 }

@@ -3,12 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Support\Facades\DB;
 
 class Client extends Model
 {
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -52,47 +51,47 @@ class Client extends Model
      *
      * @return int
      */
-    public function count_accept_meeting_clients(){   
+    public function count_accept_meeting_clients()
+    {
         return Client::leftJoin('legals', 'clients.id', '=', 'legals.client_id')
-                    ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
-                    ->where('legals.client_status_id', 3)
-                    ->orWhere('individuals.client_status_id', 3)
-                    ->count();
+            ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
+            ->where('legals.client_status_id', 3)
+            ->orWhere('individuals.client_status_id', 3)
+            ->count();
     }
 
     /**
      * Returns Number Of Clients With JPB Status (Legal and Individual)
      *
-     * @return int     
+     * @return int
      */
-    public function count_jpb_clients(){   
+    public function count_jpb_clients()
+    {
         return Client::leftJoin('legals', 'clients.id', '=', 'legals.client_id')
-                    ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
-                    ->where('legals.client_status_id', 4)
-                    ->orWhere('individuals.client_status_id', 4)
-                    ->count();
+            ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
+            ->where('legals.client_status_id', 4)
+            ->orWhere('individuals.client_status_id', 4)
+            ->count();
     }
-
 
     /**
      * Returns Client (Legal Or Individual)
      *
      * @param  \App\Client $client
-     * @return \App\Client 
+     * @return \App\Client
      */
-    public function get_client(Client $client){
-
-        if($client->legal_status_id == 1){
+    public function get_client(Client $client)
+    {
+        if ($client->legal_status_id == 1) {
             $client = $client->legal;
-        }else if($client->legal_status_id == 2){
+        } elseif ($client->legal_status_id == 2) {
             $client = $client->individual;
-        }else{
+        } else {
             $client = false;
         }
- 
+
         return $client;
     }
-
 
     /**
      * Returns Client By Client Id
@@ -100,40 +99,41 @@ class Client extends Model
      * @param  int $client_id
      * @return  \App\Client
      */
-    public function get_client_by_client_id($client_id){
-        return  Client::where('id', $client_id)->first();
+    public function get_client_by_client_id($client_id)
+    {
+        return Client::where('id', $client_id)->first();
     }
 
-    
     /**
-     * Set Client Status 
+     * Set Client Status
      *
      * @param \App\Client $client
      * @param string $status_id
      * @return bool
      */
-    public function set_client_status(Client $client, $status_id){
-        if($client->legal_status_id == 1){
-           return $client->legal->update(['client_status_id' => $status_id]);
-        }else if($client->legal_status_id == 2){
-           return $client->individual->update(['client_status_id' => $status_id]);
+    public function set_client_status(Client $client, $status_id)
+    {
+        if ($client->legal_status_id == 1) {
+            return $client->legal->update(['client_status_id' => $status_id]);
+        } elseif ($client->legal_status_id == 2) {
+            return $client->individual->update(['client_status_id' => $status_id]);
         }
         return false;
     }
 
     /**
-     * Set Client (Legal Or Individual) Closing Date 
+     * Set Client (Legal Or Individual) Closing Date
      *
      * @param  mixed $client (Legal/Individual)
      * @return bool
      */
-    public function set_closing_date($client){
+    public function set_closing_date($client)
+    {
         return $client->update(['closing_date' => date('Y-m-d')]);
     }
 
-
     /**
-     * Get Input Search Clients   
+     * Get Input Search Clients
      *
      * @param string $input_search,
      * @param array $legal_status_array
@@ -141,32 +141,34 @@ class Client extends Model
      * @param string $individual_first_name
      * @param string $individual_last_name
      * @param string $order_by
-     * @return \App\Client 
+     * @return \App\Client
      */
     public function search_input_clients_pagination($input_search, $legal_status_array, $legal_name, $individual_first_name, $individual_last_name, $order_by, $pagination = 10)
     {
-        return   Client::leftJoin('legals', 'clients.id', '=', 'legals.client_id')
-                        ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
-                        ->leftJoin('legal_statuses', 'clients.legal_status_id', '=', 'legal_statuses.id')
-                        ->select('clients.id as id',
-                                 'legals.id as legal_id',
-                                 'legals.long_name as legal_name',
-                                 DB::raw('CONCAT(first_name," ", last_name) AS individual_name'),
-                                 'legal_statuses.icon as legal_icon' )
-                        ->where('legals.long_name', 'LIKE', "$input_search%")
-                        ->whereIn('clients.legal_status_id',  $legal_status_array)
-                        ->orderByRaw("$legal_name $order_by")
-                        ->orWhere('individuals.first_name', 'LIKE', "$input_search%")
-                        ->whereIn('clients.legal_status_id',  $legal_status_array)
-                        ->orderByRaw("$individual_first_name $order_by")
-                        ->orWhere('individuals.last_name', 'LIKE', "$input_search%")
-                        ->whereIn('clients.legal_status_id',  $legal_status_array)
-                        ->orderByRaw("$individual_last_name $order_by")
-                        ->paginate($pagination);
+        return Client::leftJoin('legals', 'clients.id', '=', 'legals.client_id')
+            ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
+            ->leftJoin('legal_statuses', 'clients.legal_status_id', '=', 'legal_statuses.id')
+            ->select(
+                'clients.id as id',
+                'legals.id as legal_id',
+                'legals.long_name as legal_name',
+                DB::raw('CONCAT(first_name," ", last_name) AS individual_name'),
+                'legal_statuses.icon as legal_icon'
+            )
+            ->where('legals.long_name', 'LIKE', "$input_search%")
+            ->whereIn('clients.legal_status_id', $legal_status_array)
+            ->orderByRaw("$legal_name $order_by")
+            ->orWhere('individuals.first_name', 'LIKE', "$input_search%")
+            ->whereIn('clients.legal_status_id', $legal_status_array)
+            ->orderByRaw("$individual_first_name $order_by")
+            ->orWhere('individuals.last_name', 'LIKE', "$input_search%")
+            ->whereIn('clients.legal_status_id', $legal_status_array)
+            ->orderByRaw("$individual_last_name $order_by")
+            ->paginate($pagination);
     }
 
     /**
-     * Get Clients By Client Status  
+     * Get Clients By Client Status
      *
      * @param string $search,
      * @param int $client_status
@@ -175,38 +177,33 @@ class Client extends Model
      * @param string $individual_first_name
      * @param string $individual_last_name
      * @param string $order_by
-     * @return \App\Client 
+     * @return \App\Client
      */
     public function search_clients_by_client_status_pagination($search, $client_status, $legal_status_array, $legal_name, $individual_first_name, $individual_last_name, $order_by, $pagination = 10)
     {
-        return  Client::leftJoin('legals', 'clients.id', '=', 'legals.client_id')
-                        ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
-                        ->leftJoin('legal_statuses', 'clients.legal_status_id', '=', 'legal_statuses.id')
-                        ->select('clients.id as id',
-                                 'legals.id as legal_id',
-                                 'legals.long_name as legal_name',
-                                 'individuals.id as individual_id',
-                                  DB::raw('CONCAT(first_name," ", last_name) AS individual_name'),
-                                 'legal_statuses.icon as legal_icon' ) 
-                        ->where('legals.long_name', 'LIKE', "$search%")
-                        ->where('legals.client_status_id', '=', "$client_status")
-                        ->whereIn('clients.legal_status_id',  $legal_status_array)
-                        ->orderByRaw("$legal_name $order_by") 
-                        ->orWhere('individuals.first_name', 'LIKE', "$search%")
-                        ->where('individuals.client_status_id', '=', "$client_status")
-                        ->whereIn('clients.legal_status_id',  $legal_status_array)
-                        ->orderByRaw("$individual_first_name $order_by")
-                        ->orWhere('individuals.last_name', 'LIKE', "$search%")
-                        ->where('individuals.client_status_id', '=', "$client_status}")
-                        ->whereIn('clients.legal_status_id',  $legal_status_array)
-                        ->orderByRaw("$individual_last_name $order_by")
-                        ->paginate($pagination);
+        return Client::leftJoin('legals', 'clients.id', '=', 'legals.client_id')
+            ->leftJoin('individuals', 'clients.id', '=', 'individuals.client_id')
+            ->leftJoin('legal_statuses', 'clients.legal_status_id', '=', 'legal_statuses.id')
+            ->select(
+                'clients.id as id',
+                'legals.id as legal_id',
+                'legals.long_name as legal_name',
+                'individuals.id as individual_id',
+                DB::raw('CONCAT(first_name," ", last_name) AS individual_name'),
+                'legal_statuses.icon as legal_icon'
+            )
+            ->where('legals.long_name', 'LIKE', "$search%")
+            ->where('legals.client_status_id', '=', "$client_status")
+            ->whereIn('clients.legal_status_id', $legal_status_array)
+            ->orderByRaw("$legal_name $order_by")
+            ->orWhere('individuals.first_name', 'LIKE', "$search%")
+            ->where('individuals.client_status_id', '=', "$client_status")
+            ->whereIn('clients.legal_status_id', $legal_status_array)
+            ->orderByRaw("$individual_first_name $order_by")
+            ->orWhere('individuals.last_name', 'LIKE', "$search%")
+            ->where('individuals.client_status_id', '=', "$client_status}")
+            ->whereIn('clients.legal_status_id', $legal_status_array)
+            ->orderByRaw("$individual_last_name $order_by")
+            ->paginate($pagination);
     }
-
-       
-
-
-
-
-
 }

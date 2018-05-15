@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Proinvoice;
-use App\Invoice;
-use App\Rate;
+use App\Classes\Parse;
 use App\Client;
 use App\Contract;
-use App\Payment;
-use App\Sandler;
-use App\Classes\Parse;
-use Illuminate\Http\Request;
 use App\Http\Requests\InvoiceRequest;
+use App\Invoice;
+use App\Payment;
+use App\Proinvoice;
+use App\Rate;
+use App\Sandler;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
-use Exception;
 use Storage;
-
 
 class ProinvoicesController extends Controller
 {
@@ -25,7 +24,7 @@ class ProinvoicesController extends Controller
      *
      * @return void
      */
-    public function __construct(Proinvoice $proinvoice = null, Invoice $invoice = null, Rate $rate = null, Client $client = null, Contract $contract = null, Payment $payment = null, Sandler $sandler = null, Parse $parse=null)
+    public function __construct(Proinvoice $proinvoice = null, Invoice $invoice = null, Rate $rate = null, Client $client = null, Contract $contract = null, Payment $payment = null, Sandler $sandler = null, Parse $parse = null)
     {
         $this->proinvoice = $proinvoice;
         $this->invoice = $invoice;
@@ -42,14 +41,14 @@ class ProinvoicesController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
-     */ 
+     */
     public function issue_today(Request $request)
     {
         $title = "Avans za koji je potrebno izdati profakturu";
         $proinvoices = $this->payment->get_payments_advance_issue_today_pagination($pagination = 10);
         if ($request->ajax()) {
-             return view('invoices.ajax_proinvoices.issue_today', compact('proinvoices','title'));
-        }else{
+            return view('invoices.ajax_proinvoices.issue_today', compact('proinvoices', 'title'));
+        } else {
             return back();
         }
     }
@@ -65,12 +64,11 @@ class ProinvoicesController extends Controller
         $title = "Profakture za koje je potrebno potvrditi da su izdate";
         $proinvoices = $this->proinvoice->get_proinvoices_not_issued_not_paid_pagination($pagination = 10);
         if ($request->ajax()) {
-             return view('invoices.ajax_proinvoices.confirm_issued', compact('proinvoices','title'));
-        }else{
+            return view('invoices.ajax_proinvoices.confirm_issued', compact('proinvoices', 'title'));
+        } else {
             return back();
         }
     }
-
 
     /**
      * Display Issued Proinvoices - Confirm Paid Status - Ajax (Home-Page) (Proinvoice Is Issued and Not Paid)
@@ -83,12 +81,11 @@ class ProinvoicesController extends Controller
         $title = "Izdate profakture za koje je potrebno potvrditi da su plaćene";
         $proinvoices = $this->proinvoice->get_proinvoices_issued_not_paid_pagination($pagination = 10);
         if ($request->ajax()) {
-             return view('invoices.ajax_proinvoices.confirm_paid', compact('proinvoices','title'));
-        }else{
+            return view('invoices.ajax_proinvoices.confirm_paid', compact('proinvoices', 'title'));
+        } else {
             return back();
         }
     }
-
 
     /**
      * Store New Proinvoice ,store Invoice Associated With Created Proinvoice and Set Payment Status Issued Associated With Created Proinvoice/Invoice
@@ -99,11 +96,10 @@ class ProinvoicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(InvoiceRequest $request, Contract $contract, Payment $payment)
-    {   
+    {
         /* Contract Status In Progress */
-        if($contract->contract_status_id == 2){
-
-            $rules = array_merge($request->rules(),['single_submit'=>'numeric|size:'.$request->session()->get('single_submit')]);
+        if ($contract->contract_status_id == 2) {
+            $rules = array_merge($request->rules(), ['single_submit' => 'numeric|size:' . $request->session()->get('single_submit')]);
             $this->validate($request, $rules);
 
             DB::beginTransaction();
@@ -116,11 +112,11 @@ class ProinvoicesController extends Controller
                 /* Insert Proinvoice */
                 $proinvoice_id = Proinvoice::create(array_merge($request->except($request->store_except()), [
                     'value_euro' => $payment->value_euro,
-                    'serial_number' => $invoice_number_arr['serial_number'], 
+                    'serial_number' => $invoice_number_arr['serial_number'],
                     'proinvoice_number' => $invoice_number_arr['proinvoice_number'],
                     'payment_id' => $payment->id,
                     'contract_id' => $contract->id,
-                    'client_id' => $contract->client_id            
+                    'client_id' => $contract->client_id,
                 ]))->id;
                 /* Insert Invoice Associated With Proinvoice */
                 Invoice::create(array_merge($request->except($request->store_except()), [
@@ -128,25 +124,21 @@ class ProinvoicesController extends Controller
                     'proinvoice_id' => $proinvoice_id,
                     'payment_id' => $payment->id,
                     'contract_id' => $contract->id,
-                    'client_id' => $contract->client_id             
+                    'client_id' => $contract->client_id,
                 ]));
 
-
                 DB::commit();
-                Session::flash('message','Profaktura broj '.$invoice_number_arr['proinvoice_number'].' je kreirana.'); 
-
+                Session::flash('message', 'Profaktura broj ' . $invoice_number_arr['proinvoice_number'] . ' je kreirana.');
             } catch (Exception $e) {
-                
                 DB::rollback();
-                Session::flash('message','Greška! Profaktura nije kreirana.');
+                Session::flash('message', 'Greška! Profaktura nije kreirana.');
             }
-        }else{
-             Session::flash('message','Profaktura nije kreirana jer je Ugovor '.$contract->contract_status->name.'.');
+        } else {
+            Session::flash('message', 'Profaktura nije kreirana jer je Ugovor ' . $contract->contract_status->name . '.');
         }
 
-        return redirect('/payment/'.$contract->id.'/'.$payment->id);
+        return redirect('/payment/' . $contract->id . '/' . $payment->id);
     }
-
 
     /**
      * Update Proinvoice and Invoice Associated With Updated Proinvoice
@@ -170,17 +162,14 @@ class ProinvoicesController extends Controller
             Invoice::where('proinvoice_id', $proinvoice->id)->update($request->except($request->update_except()));
 
             DB::commit();
-            Session::flash('message','Profaktura broj '.$proinvoice->proinvoice_number.' je izmenjena.'); 
-
+            Session::flash('message', 'Profaktura broj ' . $proinvoice->proinvoice_number . ' je izmenjena.');
         } catch (Exception $e) {
-            
             DB::rollback();
-            Session::flash('message','Greška! Profaktura nije izmenjena.');
+            Session::flash('message', 'Greška! Profaktura nije izmenjena.');
         }
 
         return back();
     }
-
 
     /**
      * Issued Proinvoice (Set Status to Issued)
@@ -198,16 +187,14 @@ class ProinvoicesController extends Controller
             /* Set Status Issued For Payment Associated With Proinvoice */
             $this->payment->set_payment_issued($payment);
 
-            Session::flash('message','Profaktura broj '.$proinvoice->proinvoice_number.' je izdata.'); 
+            Session::flash('message', 'Profaktura broj ' . $proinvoice->proinvoice_number . ' je izdata.');
 
-            return redirect('/payment/'.$contract->id.'/'.$payment->id);
-
+            return redirect('/payment/' . $contract->id . '/' . $payment->id);
         } catch (Exception $e) {
-            
-            Session::flash('message','Greška kod promene statusa profakture u izdata!');
+            Session::flash('message', 'Greška kod promene statusa profakture u izdata!');
             return back();
-        }   
-    }    
+        }
+    }
 
     /**
      * Paid Proinvoice (Set Proinvoice Status Paid, Store Proinvoice Paid Date, Set Invoice Associated With Proinvoice Status Paid ,Store Invoice Associated With Proinvoice Paid Date, Set Payment Associated With Proinvoice/Invoice Status Paid, Update Contract Rest and Paid, Update Client Status (if there are no client contracts In Progress), Create Sandler Debt for Legal Clients)
@@ -223,8 +210,7 @@ class ProinvoicesController extends Controller
 
         try {
             /* Issued Proinvoice */
-            if($proinvoice->is_issued == '1'){
-
+            if ($proinvoice->is_issued == '1') {
                 /* PDV Paying Day */
                 $pdv_paying_day = $this->rate->get_pdv_paying_day();
                 /* Next Month PDV Paying Date */
@@ -234,22 +220,22 @@ class ProinvoicesController extends Controller
                 /* Set Payment Associated With Proinvoce/Invoice Paid Status  */
                 $this->payment->set_payment_paid($payment);
                 /* Set Invoice Associated With Proinvoce Paid Status, Paid Date - Today, PDV Paying Date */
-                $invoice =  $this->invoice->get_invoice_by_proinvoice_id($proinvoice->id);
+                $invoice = $this->invoice->get_invoice_by_proinvoice_id($proinvoice->id);
                 $this->invoice->set_invoice_paid($invoice, $pdv_paying_date);
                 /* Update Contract Paid and Rest Based On Proinvoice Value */
                 $paid = $contract->paid + $proinvoice->value_euro;
                 $rest = $contract->rest - $proinvoice->value_euro;
                 $this->contract->update_contract_paid_and_rest($contract, $paid, $rest);
                 /* Contract Rest For Payment */
-                if($rest == '0'){
+                if ($rest == '0') {
                     /* Get Contract Status Id Based On Status Name */
                     $contract_status_id = $this->parse->get_contract_status_id('finished');
-                    /* Set Contract Status Finished */ 
+                    /* Set Contract Status Finished */
                     $this->contract->set_contract_status($contract, $contract_status_id);
                     /* Number Of Client's In Progress Contracts */
                     $in_progress = $this->contract->count_clients_in_progress_contracts($contract->client_id);
                     /* Set Client (Legal/Individual) Status Inactive */
-                    if($in_progress == 0){
+                    if ($in_progress == 0) {
                         /* Get Client Status Id Based On Status Name */
                         $client_status_id = $this->parse->get_client_status_id_by_name('inactive');
                         /* Set Client Status - Inctive */
@@ -263,21 +249,17 @@ class ProinvoicesController extends Controller
                 $this->sandler->create_sandler_debt($invoice->value_din, $invoice->issue_date, $next_month_payday, $invoice->id);
 
                 DB::commit();
-                Session::flash('message','Profaktura broj '.$proinvoice->proinvoice_number.' je plaćena.'); 
-            }else{
-                Session::flash('message','Profaktura ne može biti plaćena jer nije izdata.');
+                Session::flash('message', 'Profaktura broj ' . $proinvoice->proinvoice_number . ' je plaćena.');
+            } else {
+                Session::flash('message', 'Profaktura ne može biti plaćena jer nije izdata.');
             }
-
         } catch (Exception $e) {
-            
             DB::rollback();
-            Session::flash('message','Greška kod promene statusa profakture u plaćena!');
+            Session::flash('message', 'Greška kod promene statusa profakture u plaćena!');
         }
 
         return back();
-        
     }
-
 
     /**
      * Delete Proinvoice, Delete Invoice Associated With Proinvoice, Delete PDF File, Set Payment Associated With Proinvoice/Invoice Status Not Issued
@@ -294,41 +276,34 @@ class ProinvoicesController extends Controller
 
         try {
             /* Proinovice Status Not Paid */
-            if($proinvoice->is_paid != 1){
+            if ($proinvoice->is_paid != 1) {
                 /* Delete Invoice Associated With Proinvoice */
                 $this->invoice->delete_invoice_from_proinvoice($proinvoice->id);
                 /* Delete Proinvoice */
                 $proinvoice->delete();
                 /* Proinvoice Number (replaced /) */
-                $proinvoice_number = str_replace("/","_",$proinvoice->proinvoice_number);
+                $proinvoice_number = str_replace("/", "_", $proinvoice->proinvoice_number);
                 /* Proinvoice PDF Filename */
-                $filename = 'Profaktura_'.$proinvoice_number.'.pdf';
+                $filename = 'Profaktura_' . $proinvoice_number . '.pdf';
                 /* Proinvoice PDF File Path */
                 $pdf_file = $this->parse->get_pdf_invoice_path(false, $contract->client_id, $contract->id, $filename);
-                 /* Delete Proinvoice PDF File If It Exists */ 
-                if(Storage::disk('local')->exists($pdf_file)){                  
+                /* Delete Proinvoice PDF File If It Exists */
+                if (Storage::disk('local')->exists($pdf_file)) {
                     Storage::disk('local')->delete($pdf_file);
                 }
                 /* Set Status Not Issued For Payment Associated With Proinvoice/Invoice */
                 $this->payment->set_payment_not_issued($payment);
 
                 DB::commit();
-                Session::flash('message','Profaktura je uspešno obrisana.');
-            }else{
-                Session::flash('message','Profaktura ne može biti obrisana jer je plaćena.');
+                Session::flash('message', 'Profaktura je uspešno obrisana.');
+            } else {
+                Session::flash('message', 'Profaktura ne može biti obrisana jer je plaćena.');
             }
-
         } catch (Exception $e) {
-            
             DB::rollback();
-            Session::flash('message','Greška! Profaktura nije obrisana.');
+            Session::flash('message', 'Greška! Profaktura nije obrisana.');
         }
 
-        return redirect('/payment/'.$contract->id.'/'.$payment->id);
+        return redirect('/payment/' . $contract->id . '/' . $payment->id);
     }
-
-
-
-
-
 }

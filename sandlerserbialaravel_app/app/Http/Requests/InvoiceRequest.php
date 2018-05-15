@@ -35,7 +35,7 @@ class InvoiceRequest extends Request
             'format_traffic_date' => 'required|date_format:"d.m.Y."',
             'traffic_date' => 'required|date_format:"Y-m-d"',
             'description' => 'required|max:255',
-            'note' => 'required|max:255'
+            'note' => 'required|max:255',
 
         ];
     }
@@ -48,7 +48,7 @@ class InvoiceRequest extends Request
     public function store_except()
     {
         return [
-             '_token', 'submit', 'form_pdf_action', 'contract_date','format_traffic_date','format_issue_date'
+            '_token', 'submit', 'form_pdf_action', 'contract_date', 'format_traffic_date', 'format_issue_date',
         ];
     }
 
@@ -60,7 +60,7 @@ class InvoiceRequest extends Request
     public function update_except()
     {
         return [
-            '_token', 'submit', 'form_pdf_action', 'contract_date','format_traffic_date','format_issue_date', 'form_issued_action', 'form_delete_action'
+            '_token', 'submit', 'form_pdf_action', 'contract_date', 'format_traffic_date', 'format_issue_date', 'form_issued_action', 'form_delete_action',
         ];
     }
 }

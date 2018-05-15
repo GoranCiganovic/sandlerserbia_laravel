@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice;
-use App\Rate;
-use App\ExchangeRate;
+use App\Classes\Parse;
 use App\Client;
 use App\Contract;
-use App\Payment;
-use App\Sandler;
-use App\Classes\Parse;
-use Illuminate\Http\Request;
+use App\ExchangeRate;
 use App\Http\Requests\InvoiceRequest;
-use Illuminate\Support\Facades\DB;
+use App\Invoice;
+use App\Payment;
 use App\Proinvoice;
-use Session;
-use Exception;
-use Storage;
+use App\Rate;
+use App\Sandler;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Session;
+use Storage;
 
 class InvoicesController extends Controller
 {
@@ -50,13 +50,11 @@ class InvoicesController extends Controller
         $title = "Fakture koje traba izdati po plaćenim profakturama";
         $invoices = $this->invoice->get_invoices_from_paid_proinvoices($pagination = 10);
         if ($request->ajax()) {
-           return view('invoices.ajax_invoices.from_proinvoice', compact('invoices', 'title'));
-        }else{
+            return view('invoices.ajax_invoices.from_proinvoice', compact('invoices', 'title'));
+        } else {
             return back();
         }
-        
     }
-
 
     /**
      * Display Invoces for Issuing Today - Ajax (Home-Page) (Payment Paying Date on Today, Not Issued, Not Paid, Is Not Advance and Contract Status In Progress)
@@ -69,13 +67,11 @@ class InvoicesController extends Controller
         $title = "Rate za koje je potrebno izdati fakturu";
         $invoices = $this->payment->get_payments_non_advance_issue_today_pagination($pagination = 10);
         if ($request->ajax()) {
-           return view('invoices.ajax_invoices.issue_today', compact('invoices','title'));
-        }else{
+            return view('invoices.ajax_invoices.issue_today', compact('invoices', 'title'));
+        } else {
             return back();
         }
-        
     }
-
 
     /**
      * Display Created Invoices - Confirm Issued Status - Ajax (Home-Page) (Invoice Not Paid, Not Issued and Proinvoice  Null)
@@ -89,11 +85,10 @@ class InvoicesController extends Controller
         $invoices = $this->invoice->get_invoices_not_issued_not_paid_pagination($pagination = 10);
         if ($request->ajax()) {
             return view('invoices.ajax_invoices.confirm_issued', compact('invoices', 'title'));
-        }else{
+        } else {
             return back();
         }
     }
-
 
     /**
      * Display Issued Invoices - Confirm Paid Status- Ajax (Home-Page) (Invoice Is Issued, Not Paid and Proinvoice  Null)
@@ -107,11 +102,10 @@ class InvoicesController extends Controller
         $invoices = $this->invoice->get_invoices_issued_not_paid_pagination($pagination = 10);
         if ($request->ajax()) {
             return view('invoices.ajax_invoices.confirm_paid', compact('invoices', 'title'));
-        }else{
+        } else {
             return back();
         }
     }
-
 
     /**
      * Display All paid Invoices - Ajax (Home-Page)
@@ -125,14 +119,13 @@ class InvoicesController extends Controller
         $invoices = $this->invoice->get_invoices_paid($pagination = 10);
         if ($request->ajax()) {
             return view('invoices.ajax_invoices.all_paid', compact('invoices', 'title'));
-        }else{
+        } else {
             return back();
         }
     }
 
-
     /**
-     * Show the form for creating a new Invoice or Proinvoice (Associated With Contract Payment) 
+     * Show the form for creating a new Invoice or Proinvoice (Associated With Contract Payment)
      *
      * @param  string $invoice_type
      * @param \App\Contract $contract
@@ -143,34 +136,33 @@ class InvoicesController extends Controller
     {
         /* Type (Invoice or Proinvoice) */
         $type = $this->parse->get_payment_type($invoice_type);
-        if($type){
+        if ($type) {
             /* Invoice/Proinvoice Associated With Payment */
-            $payment_type = DB::table($type['table'])->where('payment_id','=',$payment->id)->first();
-            if(!$payment_type){
+            $payment_type = DB::table($type['table'])->where('payment_id', '=', $payment->id)->first();
+            if (!$payment_type) {
                 /* PDV Based On Legal Status */
                 $pdv = $this->rate->get_pdv_percent_by_legal_status($contract->legal_status_id);
                 /* Exchange Rate Euro */
                 $euro = $this->exchange->get_current_exchange_euro();
                 /* Value RSD */
-                $value_din = round($payment->value_euro*$euro, 2);
+                $value_din = round($payment->value_euro * $euro, 2);
                 /* PDV RSD */
-                $pdv_din = round(($value_din*$pdv)/100,2);
+                $pdv_din = round(($value_din * $pdv) / 100, 2);
                 /* Value With PDV RSD*/
-                $value_din_tax = round($value_din+$pdv_din,2);
+                $value_din_tax = round($value_din + $pdv_din, 2);
                 /* Prevent Double Submit */
                 $current_time = $this->parse->generate_current_time_session_key('single_submit');
 
                 return view('invoices.create', compact('type', 'contract', 'payment', 'euro', 'pdv', 'value_din', 'pdv_din', 'value_din_tax', 'current_time'));
-            }else{
+            } else {
                 return back();
             }
         }
         abort(400);
     }
 
-    
     /**
-     * Show the form for creating a new Invoice from Proinvoice 
+     * Show the form for creating a new Invoice from Proinvoice
      *
      * @param \App\Contract $contract
      * @param \App\Payment $payment
@@ -183,7 +175,6 @@ class InvoicesController extends Controller
         return view('invoices.create_from_proinvoice', compact('contract', 'payment', 'proinvoice', 'invoice'));
     }
 
-
     /**
      * Store New Invoice and Set Payment Status Issued
      *
@@ -195,47 +186,42 @@ class InvoicesController extends Controller
     public function store(InvoiceRequest $request, Contract $contract, Payment $payment)
     {
         /* Contract Status In Progress */
-        if($contract->contract_status_id == 2){
-
-            $rules = array_merge($request->rules(),['single_submit'=>'numeric|size:'.$request->session()->get('single_submit')]);
+        if ($contract->contract_status_id == 2) {
+            $rules = array_merge($request->rules(), ['single_submit' => 'numeric|size:' . $request->session()->get('single_submit')]);
             $this->validate($request, $rules);
 
             DB::beginTransaction();
 
             try {
-                 /* Type (Invoice or Proinvoice) */
+                /* Type (Invoice or Proinvoice) */
                 $type = $this->parse->get_payment_type('invoice');
                 /* Next Number - Invoice Number And Serial Number (Legal or Individaul) */
                 $invoice_number_arr = $this->parse->next_invoice_proinvoice_number($contract->legal_status_id, $type);
                 /* Insert Invoice */
                 Invoice::create(array_merge($request->except($request->store_except()), [
                     'value_euro' => $payment->value_euro,
-                    'serial_number' => $invoice_number_arr['serial_number'], 
+                    'serial_number' => $invoice_number_arr['serial_number'],
                     'invoice_number' => $invoice_number_arr['invoice_number'],
                     'payment_id' => $payment->id,
-                    'contract_id' => $contract->id, 
-                    'client_id' => $contract->client_id            
+                    'contract_id' => $contract->id,
+                    'client_id' => $contract->client_id,
                 ]));
 
                 /* Remove Single Submit Session */
                 $request->session()->forget('single_submit');
 
                 DB::commit();
-                Session::flash('message','Faktura broj '.$invoice_number_arr['invoice_number'].' je kreirana.'); 
-
+                Session::flash('message', 'Faktura broj ' . $invoice_number_arr['invoice_number'] . ' je kreirana.');
             } catch (Exception $e) {
-                
                 DB::rollback();
-                Session::flash('message','Greška! Faktura nije kreirana.');
+                Session::flash('message', 'Greška! Faktura nije kreirana.');
             }
-
-        }else{
-             Session::flash('message','Faktura nije kreirana jer je Ugovor '.$contract->contract_status->name.'.');
+        } else {
+            Session::flash('message', 'Faktura nije kreirana jer je Ugovor ' . $contract->contract_status->name . '.');
         }
 
-        return redirect('/payment/'.$contract->id.'/'.$payment->id);
+        return redirect('/payment/' . $contract->id . '/' . $payment->id);
     }
-
 
     /**
      * Show the form for editing Invoice or Proinvoice
@@ -250,15 +236,14 @@ class InvoicesController extends Controller
     {
         /* Type (Invoice or Proinvoice) */
         $type = $this->parse->get_payment_type($invoice_type);
-        if($type){
+        if ($type) {
             $invoice = DB::table($type['table'])->where('id', $type_id)->first();
-            if($invoice){
-               return view('invoices.edit', compact('type', 'contract', 'payment', 'invoice')); 
-            }  
+            if ($invoice) {
+                return view('invoices.edit', compact('type', 'contract', 'payment', 'invoice'));
+            }
         }
         abort(400);
     }
-
 
     /**
      * Update Invoice
@@ -280,12 +265,10 @@ class InvoicesController extends Controller
             $invoice->update($request->except($request->update_except()));
 
             DB::commit();
-            Session::flash('message','Faktura je izmenjena.'); 
-
+            Session::flash('message', 'Faktura je izmenjena.');
         } catch (Exception $e) {
-            
             DB::rollback();
-            Session::flash('message','Greška! Faktura nije izmenjena.');
+            Session::flash('message', 'Greška! Faktura nije izmenjena.');
         }
 
         return back();
@@ -306,8 +289,8 @@ class InvoicesController extends Controller
 
         try {
             /* Inovoice Without Number (Inserted When Proinvoice Associated With Was Stored)  */
-            if(!$invoice->invoice_number && $invoice->proinvoice_id != ''){
-                 /* Type (Invoice or Proinvoice) */
+            if (!$invoice->invoice_number && $invoice->proinvoice_id != '') {
+                /* Type (Invoice or Proinvoice) */
                 $type = $this->parse->get_payment_type('invoice');
                 /* Next Number - Invoice Number And Serial Number (Legal or Individaul) */
                 $invoice_number_arr = $this->parse->next_invoice_proinvoice_number($contract->legal_status_id, $type);
@@ -315,7 +298,7 @@ class InvoicesController extends Controller
                 $invoice_number = $invoice_number_arr['invoice_number'];
                 /* Set Issued Status, Paid Status, Serial Number, Invoice Number */
                 $this->invoice->set_invoice_from_proinvoice_issued($invoice, $serial_number, $invoice_number);
-            }else{
+            } else {
                 /* Invoice Without Proinvoice */
                 $invoice_number = $invoice->invoice_number;
                 /* Set Issued Status */
@@ -323,7 +306,7 @@ class InvoicesController extends Controller
                 /* Set Status Issued For Payment Associated With Invoice */
                 $this->payment->set_payment_issued($payment);
 
-                if($contract->legal_status_id == 1){
+                if ($contract->legal_status_id == 1) {
                     $sandler_payday = $this->rate->get_sandler_paying_day();
                     $next_month_payday = $this->parse->get_next_month_paying_date($sandler_payday);
                     /* Insert Sandler Debt For Legals (Already Inserted For Invoices Associated With Proinvoice) */
@@ -332,19 +315,15 @@ class InvoicesController extends Controller
             }
 
             DB::commit();
-            Session::flash('message','Faktura broj '.$invoice_number.' je izdata.'); 
-            return redirect('/payment/'.$contract->id.'/'.$payment->id);
-
+            Session::flash('message', 'Faktura broj ' . $invoice_number . ' je izdata.');
+            return redirect('/payment/' . $contract->id . '/' . $payment->id);
         } catch (Exception $e) {
-            
             DB::rollback();
-            Session::flash('message','Greška kod promene statusa fakture u izdata!');
+            Session::flash('message', 'Greška kod promene statusa fakture u izdata!');
         }
 
         return back();
-        
     }
-
 
     /**
      * Paid Invoice (Set Invoice Paid Status, Store Invoice Paid Date, Set Payment Paid Status, Update Contract Rest and Paid, Update Client Status (if there are no client contracts In Progress),)
@@ -360,8 +339,7 @@ class InvoicesController extends Controller
 
         try {
             /* Issued Invoice */
-            if($invoice->is_issued == '1'){
-
+            if ($invoice->is_issued == '1') {
                 /* PDV Paying Day */
                 $pdv_paying_day = $this->rate->get_pdv_paying_day();
                 /* Next Month PDV Paying Date */
@@ -375,15 +353,15 @@ class InvoicesController extends Controller
                 $rest = $contract->rest - $invoice->value_euro;
                 $this->contract->update_contract_paid_and_rest($contract, $paid, $rest);
                 /* Contract Rest For Payment */
-                if($rest == '0'){
+                if ($rest == '0') {
                     /* Get Contract Status Id Based On Status Name */
                     $contract_status_id = $this->parse->get_contract_status_id('finished');
-                    /* Set Contract Status Finished */ 
+                    /* Set Contract Status Finished */
                     $this->contract->set_contract_status($contract, $contract_status_id);
                     /* Number Of Client's In Progress Contracts */
                     $in_progress = $this->contract->count_clients_in_progress_contracts($contract->client_id);
                     /* Set Client (Legal/Individual) Status Inactive */
-                    if($in_progress == 0){
+                    if ($in_progress == 0) {
                         /* Get Client Status Id Based On Status Name */
                         $client_status_id = $this->parse->get_client_status_id_by_name('inactive');
                         /* Set Client Status - Inctive */
@@ -392,22 +370,18 @@ class InvoicesController extends Controller
                 }
 
                 DB::commit();
-                Session::flash('message','Faktura broj '.$invoice->invoice_number.' je plaćena.'); 
-            }else{
-                Session::flash('message','Faktura ne može biti plaćena jer nije izdata.');
+                Session::flash('message', 'Faktura broj ' . $invoice->invoice_number . ' je plaćena.');
+            } else {
+                Session::flash('message', 'Faktura ne može biti plaćena jer nije izdata.');
                 return back();
             }
-
         } catch (Exception $e) {
-            
             DB::rollback();
-            Session::flash('message','Greška kod promene statusa fakture u plaćena!');
+            Session::flash('message', 'Greška kod promene statusa fakture u plaćena!');
         }
 
         return back();
-        
     }
-
 
     /**
      * Delete Invoice, Delete PDF File, Update Payment Status Not Issued
@@ -423,38 +397,35 @@ class InvoicesController extends Controller
 
         try {
             /* Inovice Status Not Issued and No Proinvoice Associated With */
-            if($invoice->is_issued != 1 && $invoice->proinvoice_id == ''){
+            if ($invoice->is_issued != 1 && $invoice->proinvoice_id == '') {
                 /* Delete Invoice */
                 $invoice->delete();
                 /* Invoice Number (replaced /) */
-                $invoice_number = str_replace("/","_",$invoice->invoice_number);
+                $invoice_number = str_replace("/", "_", $invoice->invoice_number);
                 /* Invoice PDF Filename */
-                $filename = 'Faktura_'.$invoice_number.'.pdf';
+                $filename = 'Faktura_' . $invoice_number . '.pdf';
                 /* Invoice PDF File Path */
                 $pdf_file = $this->parse->get_pdf_invoice_path(false, $contract->client_id, $contract->id, $filename);
-                 /* Delete Invoice PDF File If It Exists */ 
-                if(Storage::disk('local')->exists($pdf_file)){                  
+                /* Delete Invoice PDF File If It Exists */
+                if (Storage::disk('local')->exists($pdf_file)) {
                     Storage::disk('local')->delete($pdf_file);
                 }
                 /* Set Status Not Issued For Payment Associated With Invoice */
                 $this->payment->set_payment_not_issued($payment);
 
                 DB::commit();
-                Session::flash('message','Faktura je uspešno obrisana.');
-            }else{
-                Session::flash('message','Faktura ne može biti obrisana jer je izdata.');
+                Session::flash('message', 'Faktura je uspešno obrisana.');
+            } else {
+                Session::flash('message', 'Faktura ne može biti obrisana jer je izdata.');
                 return back();
             }
-
         } catch (Exception $e) {
-            
             DB::rollback();
-            Session::flash('message','Greška! Faktura nije obrisana.');
+            Session::flash('message', 'Greška! Faktura nije obrisana.');
         }
 
-        return redirect('/payment/'.$contract->id.'/'.$payment->id);
+        return redirect('/payment/' . $contract->id . '/' . $payment->id);
     }
-
 
     /**
      * Display current PDV Debt
@@ -474,12 +445,10 @@ class InvoicesController extends Controller
         /* PDV Paying Date */
         $pdv_paying_day = $this->rate->get_pdv_paying_day();
         /* Current Date */
-        $now = Carbon::now(); 
+        $now = Carbon::now();
         /* Total PDV (Paid Invoices) RSD Value Issued Last Month */
         $pdv_debt = $this->invoice->get_last_month_pdv_debt($from_to_days['from'], $from_to_days['to']);
-        
+
         return view('invoices.pdv_debt', compact('previous_month', 'invoices', 'pdv_debt', 'pdv_percent', 'pdv_paying_day', 'now'));
     }
-
-
 }

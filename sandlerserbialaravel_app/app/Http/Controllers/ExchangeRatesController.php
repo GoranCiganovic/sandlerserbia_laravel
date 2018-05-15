@@ -11,7 +11,7 @@ class ExchangeRatesController extends Controller
     /**
      * Create a new ExchangeRates Controller instance.
      *
-     * @return void 
+     * @return void
      */
     public function __construct(ExchangeRate $exchange = null)
     {
@@ -19,7 +19,7 @@ class ExchangeRatesController extends Controller
     }
 
     /**
-     * Dislpay All Exchage Rates 
+     * Dislpay All Exchage Rates
      *
      * @return \Illuminate\Http\Response
      */
@@ -28,7 +28,6 @@ class ExchangeRatesController extends Controller
         $exchange = $this->exchange->get_all_exchange_rate();
         return view('exchange_rates.exchange', compact('exchange'));
     }
-
 
     /**
      * Show the form for editing Exchange Rate
@@ -51,16 +50,14 @@ class ExchangeRatesController extends Controller
     public function update(Request $request, ExchangeRate $exchange)
     {
         $this->validate($request, [
-            'exchange_value' => 'required|numeric|digits_between:0,10|min:0'
+            'exchange_value' => 'required|numeric|digits_between:0,10|min:0',
         ]);
 
         $exchange_value = $request->input('exchange_value');
         $exchange->update(['value' => $exchange_value]);
 
-        $request->session()->flash('message', 'Valuta '.$exchange->currency.' je uspešno izmenjena.');
+        $request->session()->flash('message', 'Valuta ' . $exchange->currency . ' je uspešno izmenjena.');
 
         return back();
     }
-
-
 }

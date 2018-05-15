@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Participant extends Model
 {
-	  /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -15,7 +15,7 @@ class Participant extends Model
 
     /**
      * The attribute timestamps
-     * 
+     *
      * @var bool
      */
     public $timestamps = false;
@@ -35,5 +35,4 @@ class Participant extends Model
     {
         return $this->hasOne('App\DiscDevine', 'participant_id');
     }
-
 }

@@ -3,26 +3,25 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
-use App\User;
-use Validator;
 use Mail;
-
+use Validator;
 
 class AuthController extends Controller
 {
     /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
+            |--------------------------------------------------------------------------
+            | Registration & Login Controller
+            |--------------------------------------------------------------------------
+            |
+            | This controller handles the registration of new users, as well as the
+            | authentication of existing users. By default, this controller uses
+            | a simple trait to add these behaviors. Why don't you explore it?
+            |
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
@@ -46,9 +45,8 @@ class AuthController extends Controller
     public function __construct()
     {
         App::setLocale($this->language);
-        
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
 
+        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
     /**
@@ -59,14 +57,12 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        
+
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
-        
-
     }
 
     /**
@@ -77,23 +73,21 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        Log::info('Created user profile for user name: '.$data['name'].' and user email: '.$data['email']);
+        Log::info('Created user profile for user name: ' . $data['name'] . ' and user email: ' . $data['email']);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-        if($user){
+        if ($user) {
             $admin_email = User::where('id', 1)->where('is_admin', 1)->value('email');
-            Mail::send('auth.emails.user_created', $data, function ($message) use ($admin_email) 
-            {
+            Mail::send('auth.emails.user_created', $data, function ($message) use ($admin_email) {
                 $message->from(config('mail.username'), config('constants.application_name'));
                 $message->to($admin_email);
                 $message->subject('Obaveštenje');
             });
             $user_email = $user->email;
-            Mail::send('auth.emails.user_registered', $data, function ($message) use ($user_email) 
-            {
+            Mail::send('auth.emails.user_registered', $data, function ($message) use ($user_email) {
                 $message->from(config('mail.username'), config('constants.application_name'));
                 $message->to($user_email);
                 $message->subject('Dobrodošli');
@@ -102,5 +96,4 @@ class AuthController extends Controller
 
         return $user;
     }
-
 }

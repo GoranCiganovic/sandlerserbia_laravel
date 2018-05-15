@@ -29,9 +29,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         /* First Exchange Rate For Euro And Dollar Update */
-        $schedule->command('exchange:cron')->dailyAt('08:30');//->twiceDaily(8, 9);//->everyMinute();
-        $schedule->command('notification:cron')->dailyAt('08:30');//->everyMinute();
-        $schedule->command('discdevine:cron')->dailyAt('09:00');//->everyMinute();
-        $schedule->command('sandler:cron')->dailyAt('09:00');//->everyMinute();
+        $schedule->command('exchange:cron')->dailyAt('08:30'); //->twiceDaily(8, 9);//->everyMinute();
+        $schedule->command('notification:cron')->dailyAt('08:30'); //->everyMinute();
+        $schedule->command('discdevine:cron')->dailyAt('09:00'); //->everyMinute();
+        $schedule->command('sandler:cron')->dailyAt('09:00'); //->everyMinute();
     }
 }

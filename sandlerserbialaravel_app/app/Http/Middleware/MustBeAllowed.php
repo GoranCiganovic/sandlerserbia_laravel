@@ -16,10 +16,9 @@ class MustBeAllowed
     public function handle($request, Closure $next)
     {
         $unauthorized = $request->user()->is_unauthorized;
-        if($unauthorized){
+        if ($unauthorized) {
             abort(403, "Nemate pravo pristupa!");
         }
         return $next($request);
-         
     }
 }
