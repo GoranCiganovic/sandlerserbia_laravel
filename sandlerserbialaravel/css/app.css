@@ -11,7 +11,7 @@ html {
   -webkit-text-size-adjust: 100%; }
 
 body {
-  margin: 0; }
+  margin: 0; } 
 
 article,
 aside,
@@ -40,7 +40,7 @@ audio:not([controls]) {
   height: 0; }
 
 [hidden],
-template {
+template { 
   display: none; }
 
 a {
@@ -6070,7 +6070,6 @@ input:-webkit-autofill:active {
 
 /* confirmation alert, prompt, confirm */
 .alert-san-blue {
-  background: #6f8197;
   background: -webkit-gradient(left top, left bottom, color-stop(0%, #6f8197), color-stop(13%, #6f8197), color-stop(58%, #485969), color-stop(81%, #37495c), color-stop(100%, #203751));
   background: linear-gradient(to bottom, #6f8197 0%, #6f8197 13%, #485969 58%, #37495c 81%, #203751 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6f8197', endColorstr='#203751', GradientType=0 ); }
@@ -6154,7 +6153,7 @@ input[type=number] {
    -moz-appearance: textfield;
 }
 
-/*# sourceMappingURL=app.css.map */
 
+/*# sourceMappingURL=app.css.map */
 
 

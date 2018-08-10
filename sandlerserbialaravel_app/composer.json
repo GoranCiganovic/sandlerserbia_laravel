@@ -5,17 +5,16 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "sunra/php-simple-html-dom-parser": "1.5.2",
         "maatwebsite/excel": "~2.1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "league/flysystem-rackspace": "~1.0",
+        "unisharp/laravel-filemanager": "~1.8",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "barryvdh/laravel-snappy": "^0.4.0",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
-        "unisharp/laravel-filemanager": "~1.8"
+        "mews/purifier": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

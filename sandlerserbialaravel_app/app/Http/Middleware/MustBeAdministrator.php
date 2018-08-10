@@ -19,7 +19,7 @@ class MustBeAdministrator
         if ($admin) {
             return $next($request);
         }
-        $request->session()->flash('message', "<span class='text-danger'>Nemate ovlašćenje za ovu akciju!</span>");
+        $request->session()->flash('message', "Nemate ovlašćenje za ovu akciju!");
         return back();
         //abort(403, "Nemate ovlašćenja za ovu akciju!");
     }

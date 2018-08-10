@@ -13,19 +13,10 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use Purifier;
 
 class PdfController extends Controller
 {
-    /**
-     * Contract PDF Validation Rules
-     *
-     * @var array
-     */
-    protected $contract_validation_rules = [
-        'contract' => 'required',
-        'html' => 'filled',
-    ];
-
     /**
      * Create a new Pdf Controller instance.
      *
@@ -133,9 +124,11 @@ class PdfController extends Controller
         /* Contract Unsigned Status */
         if ($contract->contract_status_id == 1) {
             /* Input Validation */
-            $this->validate($request, $this->contract_validation_rules);
-            /* HTMl Contract Stored or From Input*/
-            $html['contract'] = $contract->html ? $contract->html : $request->input('contract');
+            $this->validate($request, ['contract_html' => 'required']);
+            /* Set Absolute Image Path For PDF View  */
+            $contract_html = str_replace('src="', 'src="'.public_path(), $request->input('contract_html'));
+            /* HTMl Contract Stored or From Input Cleaned with Purifier */
+            $html['contract'] = $contract->html ? $contract->html : $contract_html;
             /* Template Options */
             $options = $this->get_pdf_template_options();
             /* Background Logo */
@@ -171,11 +164,13 @@ class PdfController extends Controller
         /* Contract Unsigned Status */
         if ($contract->contract_status_id == 1) {
             /* Input Validation */
-            $this->validate($request, $this->contract_validation_rules);
+            $this->validate($request, ['contract_html' => 'required']);
+            /* Set Absolute Image Path For PDF View  */
+            $contract_html = str_replace('src="', 'src="'.public_path(), $request->input('contract_html'));
             /* Update Contract Html */
-            $contract->update(['html' => $request->input('contract')]);
-            /* PDF Html */
-            $html['contract'] = $request->input('contract');
+            $contract->update(['html' =>  $contract_html]);
+            /* PDF Cleaned With Purified Html */
+            $html['contract'] = Purifier::clean($request->input('contract_html'));
             /* Template Options */
             $options = $this->get_pdf_template_options();
             /* Background Logo */
@@ -183,11 +178,11 @@ class PdfController extends Controller
             /* Load PDF View */
             $pdf = $this->load_pdf_contract_view($html, 'template', $options);
             /* Contract PDF Filename */
-            $filename = 'Ugovor_' . $contract['contract_number'] . '.pdf';
+            $filename = 'Ugovor_' . $contract->contract_number . '.pdf';
             /* PDF File Path */
-            $pdf_file = $this->parse->get_pdf_contract_path(true, $contract['client_id'], $contract['id'], $filename);
+            $pdf_file = $this->parse->get_pdf_contract_path(true, $contract->client_id, $contract->id, $filename);
             /* Contract Unsigned Status */
-            if ($contract['contract_status_id'] == '1') {
+            if ($contract->contract_status_id == '1') {
                 /* Delete PDF File If It Exists */
                 if (file_exists($pdf_file)) {
                     unlink($pdf_file);

@@ -14,7 +14,7 @@ function showErrorInvalidMethod(){
       messageText: "Neipravan url!",
       alertType: "san-blue"
     });
-
+ 
 }
 
 $(document).ready(function(){

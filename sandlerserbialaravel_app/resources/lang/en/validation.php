@@ -19,6 +19,7 @@ return [
     'alpha'                => 'The :attribute may only contain letters.',
     'alpha_dash'           => 'The :attribute may only contain letters, numbers, and dashes.',
     'alpha_num'            => 'The :attribute may only contain letters and numbers.',
+    'alpha_spaces'         => 'The :attribute may only contain letters, spaces, dashes, dots and single quotes.', //custom
     'array'                => 'The :attribute must be an array.',
     'before'               => 'The :attribute must be a date before :date.',
     'between'              => [
@@ -51,6 +52,7 @@ return [
         'array'   => 'The :attribute may not have more than :max items.',
     ],
     'mimes'                => 'The :attribute must be a file of type: :values.',
+    'mimetypes'            => 'The :attribute must be a file of type: :values.',
     'min'                  => [
         'numeric' => 'The :attribute must be at least :min.',
         'file'    => 'The :attribute must be at least :min kilobytes.',

@@ -119,12 +119,7 @@
                 @if(count($contracts) > 0)
                   @foreach($contracts as $contract)
                     <a href='{{ url("/contract/".$contract->id) }}' class='panel-body-sm btn btn-{{$contract->contract_status->color}} btn-block' role='button'>
-                        <i class="fa fa-btn {{ $contract->contract_status->icon }}" aria-hidden="true"></i>
-                        <span>
-                          {{ mb_strtoupper($contract->contract_status->name) }} BR. 
-                          {{ $contract->contract_number }} od 
-                          {{ date("d.m.Y.",strtotime($contract->contract_date)) }}
-                        </span>
+                      <i class="fa fa-btn {{ $contract->contract_status->icon }}" aria-hidden="true"></i><span>{{ mb_strtoupper($contract->contract_status->name) }} BR. {{ $contract->contract_number }} od {{ date("d.m.Y.",strtotime($contract->contract_date)) }}</span>
                     </a>
                   @endforeach
                 @endif

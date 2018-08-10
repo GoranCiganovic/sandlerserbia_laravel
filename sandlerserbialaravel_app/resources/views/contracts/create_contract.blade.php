@@ -13,7 +13,7 @@
 
           <i class="fa fa-btn fa-pencil-square-o" aria-hidden="true"></i>Ugovor
           <!-- Back Button -->
-          <a href="{{ url('/client/'.$client->client_id)}}" class="btn btn-default pull-right alert-san-grey"><i class="fa fa-btn fa-chevron-left" aria-hidden="true"></i>Profil</a>
+          <a id='back_to_profile' href="{{ url('/client/'.$client->client_id)}}" class="btn btn-default pull-right alert-san-grey"><i class="fa fa-btn fa-chevron-left" aria-hidden="true"></i>Profil</a>
           <!-- /Back Button -->
           <!-- Title -->
           <div class="text-center h3">

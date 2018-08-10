@@ -19,9 +19,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //Add this custom validation rule.
         Validator::extend('alpha_spaces', function ($attribute, $value) {
-            // This will only accept alpha, spaces.and  hyphens
-            // without hyphens use: /^[\pL\s]+$/u.
-            return preg_match('/^[\pL\s-]+$/u', $value);
+            // This will only accept letters, spaces, dashes, single quotes and dots
+            return preg_match('/^[\pL\s-\.\'-]+$/u', $value);
         });
 
         Validator::extend('numeric_spaces', function ($attribute, $value) {

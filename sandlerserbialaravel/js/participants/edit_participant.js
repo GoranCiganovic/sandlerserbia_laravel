@@ -4,7 +4,7 @@ $( document ).ready( function () {
         rules: {
           name: {
             required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 255,
             normalizer: function( value ) {
@@ -31,7 +31,7 @@ $( document ).ready( function () {
         messages: {
           name: {
             required: "Polje 'Ime i prezime' je obavezno!",
-            regex: "Polje 'Ime i prezime' može da ima slova i razmake!",
+            regex: "Polje 'Ime i prezime' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Ime i prezime' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Ime i prezime' može da ima najviše 255 karaktera!"
           },
@@ -65,6 +65,8 @@ $( document ).ready( function () {
     } );
     
 } );
+
+
 
 
 

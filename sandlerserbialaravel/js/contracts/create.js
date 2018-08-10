@@ -145,8 +145,8 @@ $( document ).ready( function () {
             greaterOrEqualThan: advance
           },
           value_letters: {
-            required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            required: true, 
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             maxlength: 255,
             normalizer: function( value ) {
               return $.trim( value );
@@ -244,7 +244,7 @@ $( document ).ready( function () {
           },
           value_letters: {
             required: "Polje 'Vrednost Ugovora slovima' je obavezno!",
-            regex: "Polje 'Vrednost Ugovora slovima' može da ima samo slova i razmake!",
+            regex: "Polje 'Vrednost Ugovora slovima' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             maxlength: "Polje 'Vrednost Ugovora slovima' može da ima najviše 255 karaktera!"
           },
           advance: {

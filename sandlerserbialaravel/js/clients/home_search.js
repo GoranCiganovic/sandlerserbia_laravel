@@ -59,7 +59,7 @@ $(document).ready(function(){
                 type:'GET',
                 data:{search: search},
                 url: url + 'search/' + legal_filter+ '/' + sort_filter,
-                success: function(result){               
+                success: function(result){              
                     $('html,body').animate({
                     scrollTop: $("#search_result").html(result).offset().top},
                     'slow');

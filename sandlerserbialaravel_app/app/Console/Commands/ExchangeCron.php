@@ -73,9 +73,12 @@ class ExchangeCron extends Command
         }
     }
 
-    /*
-                Returns Exchage Rate From Web (Banca Intesa)
-    */
+    /**
+     *  Returns Exchage Rate From Web (Banca Intesa)
+     *
+     * @param  string $currency
+     * @return string
+     */
     public function getWebExhangeRate($currency)
     {
 

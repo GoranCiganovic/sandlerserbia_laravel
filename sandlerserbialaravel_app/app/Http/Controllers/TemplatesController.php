@@ -68,6 +68,7 @@ class TemplatesController extends Controller
         ]);
 
         $request->session()->flash('message', 'Opcije su uspešno izmenjene.');
+ 
         return back();
     }
 }

@@ -16,8 +16,7 @@
           <!-- /Back Button -->
           <!-- Title -->
           <div class="text-center h3">
-            <i class="fa fa-btn fa-folder-o" aria-hidden="true"></i> 
-            <span id="confirm_name">{{ ($contract->legal_status_id == '1') ? 'Ugovor br. '.$contract->contract_number  : ' Neformalan Ugovor' }}</span>
+            <i class="fa fa-btn fa-folder-o" aria-hidden="true"></i><span id="confirm_name">{{ ($contract->legal_status_id == '1') ? 'Ugovor br. '.$contract->contract_number  : 'Neformalan Ugovor' }}</span>
           </div>
           <!-- /Title -->
           <!-- Message -->
@@ -41,17 +40,7 @@
                           <th class='col-xs-5 col-sm-4 col-md-3'>
                             <i class="fa fa-btn {{ $contract_status->icon }}"></i>Status:
                           </th>
-                          <th class="text-center">
-                            <span class="h5 text-{{ $contract_status->color }}">
-                              <b><i>
-                              @if($contract->legal_status_id == '2')
-                                {{ ($contract_status->id == '1') ? 'Nedogovoren' :  $contract_status->name }}
-                              @else
-                                {{ $contract_status->name }}
-                              @endif
-                              </i></b>
-                            </span>
-                          </th>
+                          <th class="text-center"><span class="h5 text-{{ $contract_status->color }}"><b><i>@if($contract->legal_status_id == '2'){{ ($contract_status->id == '1') ? 'Nedogovoren' :  $contract_status->name }}@else{{ $contract_status->name }}@endif</i></b></span></th>
                         </tr>
                         <!-- /Status  -->
                       </thead>

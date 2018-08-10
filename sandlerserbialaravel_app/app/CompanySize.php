@@ -39,7 +39,7 @@ class CompanySize extends Model
     {
         return CompanySize::get();
     }
-
+ 
     /**
      * Returns Company Size By Id
      *

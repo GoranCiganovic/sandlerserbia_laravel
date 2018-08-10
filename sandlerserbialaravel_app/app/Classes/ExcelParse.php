@@ -20,7 +20,7 @@ class ExcelParse
             return false;
         }
     }
-
+ 
     /**
      * Returns Array of Excel File Headers
      *

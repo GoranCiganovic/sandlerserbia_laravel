@@ -12,7 +12,7 @@ class Participant extends Model
      * @var array
      */
     protected $fillable = ['name', 'position', 'email', 'phone', 'dd_date'];
-
+ 
     /**
      * The attribute timestamps
      *
@@ -25,8 +25,9 @@ class Participant extends Model
      */
     public function contract()
     {
-        return $this->belongsToMany('App\Contract');
+        return $this->belongsToMany('App\Contract', 'contract_participants', 'contract_id', 'participant_id');
     }
+    
 
     /**
      * Get the DiscDevine that owns the Participant.

@@ -43,7 +43,12 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('auth.show', compact('user'));
+        if ($user->is_admin == 0) {
+            return view('auth.show', compact('user'));
+        } else {
+            Session::flash('message', 'Akcija nije moguća! Korisnik ' . $user->name . ' je administrator!');
+            return back();
+        }
     }
 
     /**
@@ -76,8 +81,8 @@ class UserController extends Controller
             $request,
             [
                 'name' => 'filled|alpha_spaces|max:255',
-                'password' => 'required|min:6|confirmed',
-                'password_confirmation' => 'required|min:6',
+                'password' => 'required|min:6|max:255|confirmed',
+                'password_confirmation' => 'required|min:6|max:255',
                 'email' => "filled|email|min:10|max:255|unique:users,email,{$user->id}",
                 'phone' => 'digits_between:6,30',
             ]
@@ -132,8 +137,13 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        Session::flash('message', 'Korisnik ' . $user->name . ' je obrisan!');
-        return redirect('users');
+        if ($user->is_admin == 0) {
+            $user->delete();
+            Session::flash('message', 'Korisnik ' . $user->name . ' je obrisan!');
+            return redirect('users');
+        } else {
+            Session::flash('message', 'Akcija nije moguća! Korisnik ' . $user->name . ' je administrator!');
+            return back();
+        }
     }
 }

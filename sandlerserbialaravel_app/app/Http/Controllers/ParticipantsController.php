@@ -91,7 +91,7 @@ class ParticipantsController extends Controller
 
             $participant_id = Participant::create($request->all())->id;
 
-            DB::table('contract_participant')->insert(['contract_id' => $contract->id, 'participant_id' => $participant_id]);
+            DB::table('contract_participants')->insert(['contract_id' => $contract->id, 'participant_id' => $participant_id]);
 
             /* Remove Single Submit Session */
             $request->session()->forget('single_submit');

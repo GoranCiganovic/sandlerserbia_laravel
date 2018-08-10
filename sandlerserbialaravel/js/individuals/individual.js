@@ -4,7 +4,7 @@ $( document ).ready( function () {
         rules: {
           first_name: {
             required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -13,7 +13,7 @@ $( document ).ready( function () {
           },
           last_name: {
             required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -56,7 +56,7 @@ $( document ).ready( function () {
             }
           },
           county: {
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -70,7 +70,7 @@ $( document ).ready( function () {
             maxlength: 5
           },
           city: {
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -87,13 +87,13 @@ $( document ).ready( function () {
         messages: {
           first_name: {
             required: "Polje 'Ime' je obavezno!",
-            regex: "Polje 'Ime' može da ima samo slova i razmake!",
+            regex: "Polje 'Ime' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Ime' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Ime' može da ima najviše 45 karaktera!"
           },
           last_name: {
             required: "Polje 'Prezime' je obavezno!",
-            regex: "Polje 'Prezime' može da ima samo slova i razmake!",
+            regex: "Polje 'Prezime' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Prezime' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Prezime' može da ima najviše 45 karaktera!"
           },
@@ -127,7 +127,7 @@ $( document ).ready( function () {
             maxlength: "Polje 'Adresa' može da ima najviše 150 karaktera!"
           },
           county: {
-            regex: "Polje 'Opština' može da ima samo slova i razmake!",
+            regex: "Polje 'Opština' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Opština' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Opština' može da ima najviše 45 karaktera!"
           },
@@ -138,7 +138,7 @@ $( document ).ready( function () {
             maxlength: "Polje 'Poštanski broj' mora da ima 5 cifara!"
           },
           city: {
-            regex: "Polje 'Grad' može da ima samo slova i razmake!",
+            regex: "Polje 'Grad' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Grad' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Grad' može da ima najviše 45 karaktera!"
           },

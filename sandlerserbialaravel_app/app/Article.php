@@ -121,7 +121,7 @@ class Article extends Model
     {
         return Article::where('id', 5)->first();
     }
-
+ 
     /**
      * Returns Classes Number Html
      *

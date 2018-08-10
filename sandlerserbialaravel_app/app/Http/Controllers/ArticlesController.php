@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Classes\Parse;
-use App\GlobalTraining;
 use App\Template;
 use Exception;
 use Illuminate\Http\Request;
@@ -12,17 +11,16 @@ use Session;
 
 class ArticlesController extends Controller
 {
-
+ 
     /**
      * Create a new Article Controller instance.
      *
      * @return void
      */
-    public function __construct(Article $article = null, Template $template = null, GlobalTraining $global_training = null, Parse $parse = null)
+    public function __construct(Article $article = null, Template $template = null, Parse $parse = null)
     {
         $this->article = $article;
         $this->template = $template;
-        $this->global_training = $global_training;
         $this->parse = $parse;
     }
 
@@ -33,25 +31,12 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        /* Global Training Array */
-        $gt = $this->global_training->get_global_training()->toArray();
         /* Template Options */
         $template_options = $this->template->get_template_options();
         /* Articles */
         $articles = $this->article->get_articles();
 
-        return view('articles.articles', compact('gt', 'template_options', 'articles'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return view('articles.articles', compact('template_options', 'articles'));
     }
 
     /**
@@ -90,21 +75,21 @@ class ArticlesController extends Controller
                 $text = $this->parse->remove_html_space_entity(strip_tags($html));
 
                 $request['article'] = $text;
-
+                
                 $this->validate($request, [
-                    'title' => "required|string|min:1|max:100|unique:articles,name,{$article->id}",
-                    'article' => 'filled|string|min:1|max:10000',
+                    'title' => "required|max:100|unique:articles,name,{$article->id}",
+                    'article' => 'filled|max:10000',
                 ]);
 
                 /* Update Article */
-                $article->update(['name' => $name, 'html' => $html]);
+                $a = $article->update(['name' => $name, 'html' => $html]);
+
 
                 $request->session()->flash('message', 'Podaci su uspešno izmenjeni.');
             }
         } catch (Exception $e) {
             $request->session()->flash('message', 'Greška! Podaci nisu izmenjeni.');
         }
-
         return back();
     }
 

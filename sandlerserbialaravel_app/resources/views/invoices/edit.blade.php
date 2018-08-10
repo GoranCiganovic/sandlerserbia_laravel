@@ -17,7 +17,7 @@
           <!-- /Back Button -->
           <!-- Title -->
           <div class="text-center h3">
-            <i class="fa fa-btn fa-file-text-o" aria-hidden="true"></i>{{ $type['name'] }} br. {{  $invoice->$type['number'] }}
+            <i class="fa fa-btn fa-file-text-o" aria-hidden="true"></i>{{ $type['name'] }} br. {{  $invoice->$type_number }}
             <h5>Ugovora br. {{ $contract->contract_number}} od {{ date("d.m.Y.",strtotime($contract->contract_date)) }}</h5>
           </div>
           <!-- /Title -->

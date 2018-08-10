@@ -17,7 +17,7 @@ class ExchangeRatesController extends Controller
     {
         $this->exchange = $exchange;
     }
-
+ 
     /**
      * Dislpay All Exchage Rates
      *

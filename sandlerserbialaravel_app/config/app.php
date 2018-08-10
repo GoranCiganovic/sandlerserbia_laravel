@@ -10,7 +10,7 @@ return [
     | This value determines the "environment" your application is currently
     | running in. This may determine how you prefer to configure various
     | services your application utilizes. Set this in your ".env" file.
-    |
+                                            |
     */
 
     'env' => env('APP_ENV', 'production'),
@@ -76,7 +76,7 @@ return [
     | is not available. You may change the value to correspond to any of
     | the language folders that are provided through your application.
     |
-    */
+*/
 
     'fallback_locale' => 'en',
 
@@ -125,7 +125,7 @@ return [
 
         /*
          * Laravel Framework Service Providers...
-         */
+        */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -150,7 +150,7 @@ return [
 
         /*
          * Application Service Providers...
-         */
+        */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -161,7 +161,7 @@ return [
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-
+        Mews\Purifier\PurifierServiceProvider::class,
 
     ],
 
@@ -212,7 +212,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
-
+        'Purifier' => Mews\Purifier\Facades\Purifier::class,
 
     ],
 

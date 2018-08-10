@@ -4,7 +4,7 @@ $( document ).ready( function () {
         rules: {
           name: {
             required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 255,
             normalizer: function( value ) {

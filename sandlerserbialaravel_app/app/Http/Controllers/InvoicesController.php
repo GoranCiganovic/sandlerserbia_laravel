@@ -237,9 +237,10 @@ class InvoicesController extends Controller
         /* Type (Invoice or Proinvoice) */
         $type = $this->parse->get_payment_type($invoice_type);
         if ($type) {
+            $type_number = $type['number'];
             $invoice = DB::table($type['table'])->where('id', $type_id)->first();
             if ($invoice) {
-                return view('invoices.edit', compact('type', 'contract', 'payment', 'invoice'));
+                return view('invoices.edit', compact('type', 'type_number', 'contract', 'payment', 'invoice'));
             }
         }
         abort(400);

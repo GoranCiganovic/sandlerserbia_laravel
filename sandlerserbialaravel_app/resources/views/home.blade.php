@@ -75,10 +75,10 @@
       <!-- Contracts -->
       <div id="contracts" class="col-lg-4 col-md-4 col-sm-4"><br>
         <h4 class="text-center"><i class="fa fa-btn fa fa-archive" aria-hidden="true"></i>&nbsp;Ugovori</h4>
-        <a href="{{ url('/contracts/in_progress') }}" class='contracts btn btn-primary btn-md btn-block' role='button'><i class="fa fa-btn fa-folder-open-o" aria-hidden="true"></i>U toku</a>
         <a href="{{ url('/contracts/unsigned') }}" class='contracts btn btn-primary btn-md btn-block' role='button'><i class="fa fa-btn fa-pencil-square-o" aria-hidden="true"></i>Nepotpisani
         @if($unsigned > 0)<span class="alert-san-grey badge">{{$unsigned}}</span>@endif
         </a>
+        <a href="{{ url('/contracts/in_progress') }}" class='contracts btn btn-primary btn-md btn-block' role='button'><i class="fa fa-btn fa-folder-open-o" aria-hidden="true"></i>U toku</a>
         <a href="{{ url('/contracts/broken') }}" class='contracts btn btn-primary btn-md btn-block' role='button'><i class="fa fa-btn fa-ban" aria-hidden="true"></i>Raskinuti
         </a>
         <a href="{{ url('/contracts/finished') }}" class='contracts btn btn-primary btn-md btn-block' role='button'><i class="fa fa-btn fa-folder" aria-hidden="true"></i>Završeni</a>

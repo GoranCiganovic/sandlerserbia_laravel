@@ -11,7 +11,7 @@ $( document ).ready( function () {
           },
           representative: {
             required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 150,
             normalizer: function( value ) {
@@ -47,7 +47,7 @@ $( document ).ready( function () {
           },
           county: {
             required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -63,7 +63,7 @@ $( document ).ready( function () {
           },
           city: {
             required: true,
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -106,7 +106,7 @@ $( document ).ready( function () {
           },
           representative: {
             required: "Polje 'Ovalšćeni zastupnik' je obavezno!",
-            regex: "Polje 'valšćeni zastupnik' može da ima samo slova i razmake!",
+            regex: "Polje 'Ovalšćeni zastupnik' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Ovalšćeni zastupnik' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Ovalšćeni zastupnik' može da ima najviše 45 karaktera!"
           },
@@ -133,7 +133,7 @@ $( document ).ready( function () {
           },
           county: {
             required: "Polje 'Opština' je obavezno!",
-            regex: "Polje 'Opština' može da ima samo slova i razmake!",
+            regex: "Polje 'Opština' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Opština' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Opština' može da ima najviše 45 karaktera!"
           },
@@ -146,7 +146,7 @@ $( document ).ready( function () {
           },
           city: {
             required: "Polje 'Grad' je obavezno!",
-            regex: "Polje 'Grad' može da ima samo slova i razmake!",
+            regex: "Polje 'Grad' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Grad' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Grad' može da ima najviše 45 karaktera!"
           },

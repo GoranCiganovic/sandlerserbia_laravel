@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class RatesController extends Controller
 {
-
+ 
     /**
      * Create a new Rates Controller instance.
      *

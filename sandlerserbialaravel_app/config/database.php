@@ -78,6 +78,18 @@ return [
             'schema' => 'public',
         ],
 
+        'sqlite_testing' => [
+            'driver' => 'sqlite',
+            'database' => env('DB_DATABASE', database_path('testing_database.sqlite')),
+            'prefix' => 'laravel_',
+        ],
+
+        'sqlite_unit_testing' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => 'laravel_',
+        ],
+
     ],
 
     /*

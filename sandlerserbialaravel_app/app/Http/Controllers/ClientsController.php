@@ -13,6 +13,7 @@ use Session;
 
 class ClientsController extends Controller
 {
+
     /**
      * Create a new Clients Controller instance.
      *
@@ -27,7 +28,7 @@ class ClientsController extends Controller
         $this->proinvoice = $proinvoice;
         $this->parse = $parse;
     }
-
+ 
     /**
      * Show Client Profile based on legal status (Legal or Individual)
      *
@@ -101,7 +102,7 @@ class ClientsController extends Controller
         /* Get Client (Legal or Individual) */
         $client = $this->client->get_client($client_id);
 
-        /* Change Status If Not Active or Inactive Status*/
+        /* Change Status If Not Active Or Not Inactive Status*/
         if ($client->client_status_id != 5 && $client->client_status_id != 6) {
             /* Add Conversation Date Today*/
             $client->conversation_date = date('Y-m-d');
@@ -111,9 +112,9 @@ class ClientsController extends Controller
                 $client->accept_meeting_date = date('Y-m-d');
             }
             $client->save();
+            Session::flash('message', 'Status je uspešno promenjen.');
         }
-
-        Session::flash('message', 'Status je uspešno promenjen.');
+        
         return back();
     }
 
@@ -158,7 +159,7 @@ class ClientsController extends Controller
 
         $this->validate($request, [
             'search' => 'regex:/(^[0-9a-zA-Z ]+$)+/',
-            'legal_filter' => 'numeric|digits_between:0,2',
+            'legal_filter' => 'numeric|digits_between:1,2',
             'sort_filter' => 'numeric|digits_between:0,4',
         ]);
 
@@ -192,7 +193,7 @@ class ClientsController extends Controller
             'client_status' => 'required|numeric|digits_between:1,6',
             'local_search' => 'regex:/(^[0-9a-zA-Z ]+$)+/',
             'legal_filter' => 'filled|numeric|digits_between:1,2',
-            'sort_filter' => 'filled|numeric|digits_between:1,4',
+            'sort_filter' => 'filled|numeric|digits_between:0,4',
         ]);
 
         $client_status = $request->input('client_status');

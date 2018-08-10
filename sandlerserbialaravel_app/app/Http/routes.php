@@ -1,5 +1,5 @@
 <?php
-
+  
 /* Welcome Page */
 Route::get('/', function () {
     return view('welcome');

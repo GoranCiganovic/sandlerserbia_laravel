@@ -64,7 +64,7 @@ class HomeController extends Controller
         $sandler_debt = $this->sandler->count_sandler_debt_deadline_expired();
         /* Count DISC/Devine Tests Expired Paid Date */
         $disc_devine_debt = $this->disc_devine->count_disc_devine_debt_deadline_expired();
-
+        //Purifier::clean($euro);
         return view('home', compact('payments_advance_issue_tomorrow', 'payments_issue_tomorrow', 'euro', 'dollar', 'accept', 'jpb', 'unsigned', 'proinvoice_issue_today', 'proinvoice_confirm_issued', 'proinvoice_confirm_paid', 'invoices_from_paid_proinvoices', 'invoices_issue_today', 'invoice_confirm_issued', 'invoice_confirm_paid', 'sandler_debt', 'disc_devine_debt'));
     }
 

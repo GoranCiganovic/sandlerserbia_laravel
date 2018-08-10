@@ -15,7 +15,7 @@ use Session;
 
 class LegalsController extends Controller
 {
-
+   
     /**
      * Validation Legal Rules
      *
@@ -124,7 +124,7 @@ class LegalsController extends Controller
         ]);
 
         $excel_file = $request->file('excel_file');
-
+        
         DB::beginTransaction();
 
         try {
@@ -139,7 +139,6 @@ class LegalsController extends Controller
                     $request->session()->flash('message', 'Dokument je prazan!');
                     return back();
                 }
-
                 $headers = $this->excel->getHeaders($file_path); //Headers Form Excel File
                 $false_headers = $this->excel->checkHeaders($headers); //Check Headers
                 if ($false_headers) {
@@ -151,7 +150,7 @@ class LegalsController extends Controller
                 $excel_array = $this->excel->createExcelArrayWithTableNames($file_path); //Excel File As Array
                 $suspects_array = $this->excel->replaceCompanySizeValue($excel_array); // Replace String With Int
                 Storage::disk('local')->delete($this->excel->get_excel_file_path(false, $file_name)); // Delete File
-
+ 
                 foreach ($suspects_array as $array) {
                     /* Add Excel File Row In Request Object */
                     $request->request->add($array);
@@ -163,7 +162,7 @@ class LegalsController extends Controller
 
                 /* Remove Single Submit Session */
                 $request->session()->forget('single_submit');
-
+                
                 DB::commit();
                 $request->session()->flash('message', 'Podaci su uspešno uneti u bazu.');
             } else {
@@ -204,7 +203,7 @@ class LegalsController extends Controller
             'city' => 'alpha_spaces|min:2|max:45',
             'website' => 'max:45',
             'comment' => 'max:5000',
-            'company_size_id' => 'filled|integer|min:0:|max:5',
+            'company_size_id' => 'filled|integer|min:0|max:5',
         ]);
 
         /* Unique Nullable Columns */
@@ -232,7 +231,7 @@ class LegalsController extends Controller
             'format_meeting_date' => 'date_format:"d.m.Y. H:i"',
             'meeting_date' => 'date_format:"Y-m-d H:i"',
         ]);
-
+ 
         try {
             if ($legal->client_status_id == 3) {
                 $legal->update($request->all());

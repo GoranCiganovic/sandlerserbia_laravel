@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
 
 use App\Article;
@@ -34,8 +34,8 @@ class ContractsController extends Controller
         'format_contract_date' => 'required|date_format:"d.m.Y."|after_and_today',
         'start_date' => 'date_format:"Y-m-d"|after_and_today|after_or_equal:contract_date',
         'format_start_date' => 'date_format:"d.m.Y."|after_and_today|after_or_equal:contract_date',
-        'end_date' => 'date_format:"Y-m-d"|after_and_today|after_or_equal:contract_date|after_or_equal:start_date|after_or_equal:format_start_date',
-        'format_end_date' => 'date_format:"d.m.Y."|after_and_today|after_or_equal:contract_date|after_or_equal:start_date|after_or_equal:format_start_date',
+        'end_date' => 'date_format:"Y-m-d"|after_and_today|after_or_equal:contract_date|after_or_equal:start_date',
+        'format_end_date' => 'date_format:"d.m.Y."|after_and_today|after_or_equal:contract_date|after_or_equal:start_date',
         'event_place' => 'max:255',
         'classes_number' => 'max:255',
         'work_dynamics' => 'max:255',
@@ -57,25 +57,7 @@ class ContractsController extends Controller
         $this->template = $template;
         $this->parse = $parse;
     }
-
-    /**
-     * Display In Progress Contracts - Ajax (Home-Page)
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function in_progress(Request $request)
-    {
-        $title = "Ugovori u toku";
-        $fa_icon = "fa-folder-open-o";
-        $contracts = $this->contract->get_in_progress_contracts_pagination($pagination = 10);
-        if ($request->ajax()) {
-            return view('contracts.ajax_contracts', compact('contracts', 'title', 'fa_icon'));
-        } else {
-            return back();
-        }
-    }
-
+ 
     /**
      *  Display Unsigned Contracts - Ajax (Home-Page)
      *
@@ -87,6 +69,24 @@ class ContractsController extends Controller
         $title = "Nepotpisani Ugovori";
         $fa_icon = "fa-pencil-square-o";
         $contracts = $this->contract->get_unsigned_contracts_pagination($pagination = 10);
+        if ($request->ajax()) {
+            return view('contracts.ajax_contracts', compact('contracts', 'title', 'fa_icon'));
+        } else {
+            return back();
+        }
+    }
+    
+    /**
+     * Display In Progress Contracts - Ajax (Home-Page)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function in_progress(Request $request)
+    {
+        $title = "Ugovori u toku";
+        $fa_icon = "fa-folder-open-o";
+        $contracts = $this->contract->get_in_progress_contracts_pagination($pagination = 10);
         if ($request->ajax()) {
             return view('contracts.ajax_contracts', compact('contracts', 'title', 'fa_icon'));
         } else {
@@ -183,7 +183,7 @@ class ContractsController extends Controller
             for ($i = 0; $i < $request->input('participants'); $i++) {
                 $participant_id = Participant::create()->id;
                 /* Insert Foreign Keys Of Contract And Participant In ContractParticipant Table*/
-                DB::table('contract_participant')->insert(['contract_id' => $contract_id, 'participant_id' => $participant_id]);
+                DB::table('contract_participants')->insert(['contract_id' => $contract_id, 'participant_id' => $participant_id]);
             }
             /* Insert Payments Based On The Payments Number */
             if ($advance > '0') {
@@ -245,9 +245,12 @@ class ContractsController extends Controller
      */
     public function edit(Contract $contract)
     {
-        /* Get Client (Legal or Individual) */
-        $client = $this->client->get_client($contract->client);
-        return view('contracts.edit_contract', compact('contract', 'client'));
+        if ($contract->contract_status_id == 1) {
+            /* Get Client (Legal or Individual) */
+            $client = $this->client->get_client($contract->client);
+            return view('contracts.edit_contract', compact('contract', 'client'));
+        }
+        return back();
     }
 
     /**
@@ -291,7 +294,7 @@ class ContractsController extends Controller
                 for ($i = 0; $i < $request->input('participants'); $i++) {
                     $participant_id = Participant::create()->id;
                     /* Insert Foreign Keys Of Contract And Participant In ContractParticipant Table*/
-                    DB::table('contract_participant')->insert(['contract_id' => $contract->id, 'participant_id' => $participant_id]);
+                    DB::table('contract_participants')->insert(['contract_id' => $contract->id, 'participant_id' => $participant_id]);
                 }
 
                 /* Insert Payments Based On Payments Number */
@@ -387,9 +390,12 @@ class ContractsController extends Controller
      */
     public function add_description(Contract $contract)
     {
-        /* Get Client (Legal or Individual) */
-        $client = $this->client->get_client($contract->client);
-        return view('contracts.add_description', compact('contract', 'client'));
+        if ($contract->contract_status_id == 2) {
+            /* Get Client (Legal or Individual) */
+            $client = $this->client->get_client($contract->client);
+            return view('contracts.add_description', compact('contract', 'client'));
+        }
+        return back();
     }
 
     /**
@@ -509,12 +515,10 @@ class ContractsController extends Controller
             $payments = $contract->payment->toArray();
             /* Contract Participants Array */
             $participants = $contract->participant->toArray();
-            /* Contract Array */
-            $contract = $contract->toArray();
             /* Global Training Array */
             $gt = $this->global_training->get_global_training()->toArray();
-            /* Contract Html */
-            $html = $contract['html'];
+            /* Contract Html -Remove Absolute Image Path For Textarea View  */
+            $html = str_replace('src="'.public_path(), 'src="', $contract->html);
             /* Articles */
             $article = $this->article->get_articles_html();
             /* Template Options */

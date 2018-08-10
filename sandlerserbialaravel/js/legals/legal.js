@@ -16,7 +16,7 @@ $( document ).ready( function () {
             }
           },
           ceo: {
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -33,7 +33,7 @@ $( document ).ready( function () {
             maxlength: 150
           },
           contact_person: {
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -76,7 +76,7 @@ $( document ).ready( function () {
             }
           },
           county: {
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -90,7 +90,7 @@ $( document ).ready( function () {
             maxlength: 5,
           },
           city: {
-            regex: /^[a-zA-ZŽžĐđŠšČčĆć," "]+$/,
+            regex: /^[a-zA-ZŽžĐđŠšČčĆć\s\.\'-]+$/,
             minlength: 2,
             maxlength: 45,
             normalizer: function( value ) {
@@ -120,7 +120,7 @@ $( document ).ready( function () {
             maxlength: "Polje 'Kraći naziv' može da ima najviše 100 karaktera!"
           },
           ceo: {
-            regex: "Polje 'Direktor ' može da ima samo slova i razmake!",
+            regex: "Polje 'Direktor' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Direktor' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Direktor' može da ima najviše 45 karaktera!"
           },
@@ -134,7 +134,7 @@ $( document ).ready( function () {
             maxlength: "Polje 'Email adresa' može imati najviše 150 karaktera!"
           },
           contact_person: {
-            regex: "Polje 'Lice za razgovor' može da ima samo slova i razmake!",
+            regex: "Polje 'Lice za razgovor' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Lice za razgovor' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Lice za razgovor' može da ima najviše 45 karaktera!"
           },
@@ -168,7 +168,7 @@ $( document ).ready( function () {
             maxlength: "Polje 'Adresa' može da ima najviše 150 karaktera!"
           },
           county: {
-            regex: "Polje 'Opština' može da ima samo slova i razmake!",
+            regex: "Polje 'Opština' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Opština' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Opština' može da ima najviše 45 karaktera!"
           },
@@ -179,7 +179,7 @@ $( document ).ready( function () {
             maxlength: "Polje 'Poštanski broj' mora da ima 5 cifara!"
           },
           city: {
-            regex: "Polje 'Grad' može da ima samo slova i razmake!",
+            regex: "Polje 'Grad' može da ima samo slova, razmake, srednje crte, tačke i apostrofe!",
             minlength: "Polje 'Grad' mora da ima najmanje 2 karaktera!",
             maxlength: "Polje 'Grad' može da ima najviše 45 karaktera!"
           },

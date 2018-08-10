@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class GlobalTrainingController extends Controller
 {
+
     /**
      * Create a new GlobalTraining Controller instance.
      *

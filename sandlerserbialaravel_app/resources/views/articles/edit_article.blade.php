@@ -52,7 +52,7 @@
               <!-- Sadržaj -->
               <div class="form-group">
                   <label>
-                    <i class="fa fa-btn fa-edit"></i>Sadržaj
+                    <i class="fa fa-btn fa-edit"></i>Sadr&zcaron;aj
                   </label>
                  <textarea class='form-control' name='article' id='article'>
                    {{ $article->html }}

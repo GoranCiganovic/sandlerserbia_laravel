@@ -19,7 +19,7 @@ class Contract extends Model
      * @var bool
      */
     public $timestamps = false;
-
+ 
     /**
      * Get the Client that owns the Contract.
      */
@@ -37,11 +37,11 @@ class Contract extends Model
     }
 
     /**
-     * The Participant that belong to the Contract.
+     * The Participants that belong to the Contract.
      */
     public function participant()
     {
-        return $this->belongsToMany('App\Participant');
+        return $this->belongsToMany('App\Participant', 'contract_participants', 'contract_id', 'participant_id');
     }
 
     /**

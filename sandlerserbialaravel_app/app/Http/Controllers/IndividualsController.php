@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class IndividualsController extends Controller
 {
+
     /**
      * Create a new Individuals Controller instance.
      *
@@ -30,7 +31,7 @@ class IndividualsController extends Controller
         $current_time = $this->parse->generate_current_time_session_key('single_submit');
         return view('suspects.create_individual', compact('current_time'));
     }
-
+ 
     /**
      * Store New Individual Client
      *
@@ -92,7 +93,7 @@ class IndividualsController extends Controller
             'phone' => "required|numeric_spaces|between:6,30|unique:individuals,phone,{$individual->id}",
             'email' => "email|min:7|max:150",
             'jmbg' => "numeric|digits_between:13,45|unique:individuals,jmbg,{$individual->id}",
-            'id_card' => "numeric|digits_between:6,45|unique:individuals,id_card,{$individual->d}",
+            'id_card' => "numeric|digits_between:6,45|unique:individuals,id_card,{$individual->id}",
             'works_at' => 'max:45',
             'address' => 'min:2|max:150',
             'county' => 'alpha_spaces|min:2|max:45',

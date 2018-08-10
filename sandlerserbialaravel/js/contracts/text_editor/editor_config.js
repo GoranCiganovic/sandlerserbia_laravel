@@ -6,11 +6,11 @@ $(document).ready(function(){
 		language: 'ser',
 		branding: false,
 		plugins:[
-			"advlist autolink lists link image charmap print preview hr anchor pagebreak",
+			"advlist autolink lists link charmap print preview hr anchor pagebreak",
 			"searchreplace wordcount visualblocks visualchars code fullscreen help hr",
 			"insertdatetime media nonbreaking save table contextmenu directionality",
 			"emoticons template paste textcolor colorpicker textpattern autoresize autosave",
-			"charmap contextmenu directionality fullpage imagetools noneditable tabfocus"
+			"charmap contextmenu directionality imagetools noneditable tabfocus"
 		],
 		toolbar: "insertfile | undo redo save | styleselect fontselect | fontsizeselect  bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media ",
 		fontsize_formats: '5pt 6pt 7pt 8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 22pt 24pt 26pt 28pt 30pt 32pt 34pt 36pt 38pt 40pt',

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Parse
 {
-
+ 
     /**
      * Returns No JavaScript Message Response
      *

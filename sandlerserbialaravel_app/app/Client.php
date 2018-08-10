@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+ 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -84,12 +84,10 @@ class Client extends Model
     {
         if ($client->legal_status_id == 1) {
             $client = $client->legal;
-        } elseif ($client->legal_status_id == 2) {
-            $client = $client->individual;
-        } else {
-            $client = false;
         }
-
+        if ($client->legal_status_id == 2) {
+            $client = $client->individual;
+        }
         return $client;
     }
 
@@ -101,7 +99,7 @@ class Client extends Model
      */
     public function get_client_by_client_id($client_id)
     {
-        return Client::where('id', $client_id)->first();
+        return Client::find($client_id);
     }
 
     /**
@@ -114,11 +112,12 @@ class Client extends Model
     public function set_client_status(Client $client, $status_id)
     {
         if ($client->legal_status_id == 1) {
-            return $client->legal->update(['client_status_id' => $status_id]);
-        } elseif ($client->legal_status_id == 2) {
-            return $client->individual->update(['client_status_id' => $status_id]);
+            $update = $client->legal->update(['client_status_id' => $status_id]);
         }
-        return false;
+        if ($client->legal_status_id == 2) {
+            $update = $client->individual->update(['client_status_id' => $status_id]);
+        }
+        return $update;
     }
 
     /**
@@ -141,6 +140,7 @@ class Client extends Model
      * @param string $individual_first_name
      * @param string $individual_last_name
      * @param string $order_by
+     * @param int $pagination
      * @return \App\Client
      */
     public function search_input_clients_pagination($input_search, $legal_status_array, $legal_name, $individual_first_name, $individual_last_name, $order_by, $pagination = 10)
@@ -177,6 +177,7 @@ class Client extends Model
      * @param string $individual_first_name
      * @param string $individual_last_name
      * @param string $order_by
+     * @param int $pagination
      * @return \App\Client
      */
     public function search_clients_by_client_status_pagination($search, $client_status, $legal_status_array, $legal_name, $individual_first_name, $individual_last_name, $order_by, $pagination = 10)
