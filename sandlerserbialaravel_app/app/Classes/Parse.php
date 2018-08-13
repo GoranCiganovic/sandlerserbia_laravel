@@ -517,4 +517,5 @@ class Parse
     {
         return $html = str_replace("&nbsp;", "", $html);
     }
+	
 }
