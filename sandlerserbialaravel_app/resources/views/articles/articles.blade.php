@@ -93,7 +93,7 @@
                   <!-- /Table -->
              </div>
 
-              <a href='{{ url("/template/edit/".$template_options->id) }}' class='panel-body-sm btn btn-primary btn-block' role='button'>
+              <a id='template_edit' href='{{ url("/template/edit/".$template_options->id) }}' class='panel-body-sm btn btn-primary btn-block' role='button'>
                   <i class="fa fa-btn fa-edit " aria-hidden="true"></i>
                   <span>Izmeni</span>
               </a>
@@ -110,7 +110,7 @@
                <div class="panel-body bg-white"> {!! $article->html !!}</div>
                <!-- Can't Change Articles 2,14,15 -->
                @if($article->id != 2 and $article->id != 14 and $article->id != 15)
-                <a href='{{ url("/article/edit/".$article->id) }}' class='panel-body-sm btn btn-primary btn-block' role='button'>
+                <a id='article{{$article->id}}' href='{{ url("/article/edit/".$article->id) }}' class='panel-body-sm btn btn-primary btn-block' role='button'>
                     <i class="fa fa-btn fa-edit " aria-hidden="true"></i>
                     <span>Izmeni</span>
                 </a>
